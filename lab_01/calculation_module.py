@@ -41,24 +41,34 @@ def find_max(num_1, num_2, num_3):
     else:
         return num_3
 
+def is_triangle(AB, BC, AC):
+    if ((AB + BC) < AC or (AB + AC) < BC or (BC + AC) < AB):
+        return False
+    else:
+        return True
+        
+
 def calc_min_median(A, B, C):
     assert not on_the_same_line(A, B, C), "Error: all points are on the same line"
     side_A_B = calc_length(A, B)
     side_B_C = calc_length(B, C)
     side_A_C = calc_length(A, C)
-    max_side = find_max(side_A_B, side_B_C, side_A_C)
-    min_median = 0.0
-    median_num = 0 # номер точки (1, 2, 3), из которой проводится медиана
-    if (is_equal(side_A_B, max_side)):
-        min_median = calc_median(side_A_B, side_B_C, side_A_C)
-        median_num = 3
-    elif (is_equal(side_B_C, max_side)):
-        min_median = calc_median(side_B_C, side_A_C, side_A_B)
-        median_num = 1
+    if (not is_triangle(side_A_B, side_B_C, side_A_C)):
+        return none, -1
     else:
-        min_median = calc_median(side_A_C, side_A_B, side_B_C)
-        median_num = 2
-    return min_median, median_num
+        max_side = find_max(side_A_B, side_B_C, side_A_C)
+        min_median = 0.0
+        median_num = 0 # номер точки (1, 2, 3), из которой проводится медиана
+        if (is_equal(side_A_B, max_side)):
+            min_median = calc_median(side_A_B, side_B_C, side_A_C)
+            median_num = 3
+        elif (is_equal(side_B_C, max_side)):
+            min_median = calc_median(side_B_C, side_A_C, side_A_B)
+            median_num = 1
+        else:
+            min_median = calc_median(side_A_C, side_A_B, side_B_C)
+            median_num = 2
+        return min_median, median_num
 
 
 ##first = point(3.3, 6.38)
