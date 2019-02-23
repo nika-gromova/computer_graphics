@@ -94,6 +94,7 @@ def print_text():
                                                                                     list_of_min[int(number_of_corner[0] - 1)].x, list_of_min[int(number_of_corner[0] - 1)].y,))
     
 def calculate():
+    main_canvas.delete('all')
     size = len(list_of_points)
     if (size < 3):
         messagebox.showerror('Ошибка: невозможно построить треугольник', 'Недостаточно точек для построения треугольника.')
@@ -123,6 +124,34 @@ def calculate():
             print_text()
             paint_triangle()
 
+
+def check_index(index_str):
+    if (len(list_of_points) == 0):
+        messagebox.showerror('Ошибка: нет точек', 'Множество точек пусто.')
+    else:
+        if (not re.fullmatch(r'[+]?(?:\d+)', index_str)):
+            messagebox.showerror('Ошибка: некорректный индекс', 'Вводите только положительные целые числа или ноль.')
+        else:
+            if (int(index_str) >= len(list_of_points)):
+                messagebox.showerror('Ошибка: некорректный индекс', 'Вводите только индексы в диапазоне от 0 до {:d} включительно.'.format(len(list_of_points) - 1))
+            else:
+                return True
+    return False
+
+def reset_lb():
+    points_lb.delete(0, END)
+    for i in range(len(list_of_points)):
+        points_lb.insert(END, '{:d}). ({:.3f}; {:.3f})'.format(i, list_of_points[i].x, list_of_points[i].y))
+
+def clear():
+    index_str = entry_index.get()
+    if (check_index(index_str)):
+        index = int(index_str)
+        list_of_points.pop(index)
+        reset_lb()
+    entry_index.delete(0, END)
+
+
 def clear_all():
     entry_x.delete(0, END)
     entry_y.delete(0, END)
@@ -137,36 +166,39 @@ def clear_all():
     number_of_corner[0] = 0
     main_canvas.delete('all')
     label_result.configure(text = 'Результат вычислений:')
-
-
-def check_index(index_str):
-    if (len(list_of_points) == 0):
-        messagebox.showerror('Ошибка: нет точек', 'Множество точек пусто. Нечего удалять.')
-    else:
-        if (not re.fullmatch(r'[+]?(?:\d+)', index_str)):
-            messagebox.showerror('Ошибка: некорректный индекс', 'Вводите только положительные целые числа или ноль.')
-        else:
-            if (int(index_str) >= len(list_of_points)):
-                messagebox.showerror('Ошибка: некорректный индекс', 'Вводите только индексы в диапазоне от 0 до {:d} включительно.'.format(len(list_of_points) - 1))
-            else:
-                return True
-    return False
-
-def clear():
-    index_str = entry_index.get()
-    if (check_index(index_str)):
-        index = int(index_str)
-        list_of_points.pop(index)
-        points_lb.delete(0, END)
-        for i in range(len(list_of_points)):
-            points_lb.insert(END, '{:d}). ({:.3f}; {:.3f})'.format(i, list_of_points[i].x, list_of_points[i].y))
-    entry_index.delete(0, END)
+    
     
 def change():
     index_str = entry_index.get()
     if (check_index(index_str)):
         index = int(index_str)
-        # добавить grid и поменять значения точек
+        label_x_change.grid(row = 4, column = 34)
+        entry_x_change.grid(row = 4, column = 35, columnspan = 2)
+        label_y_change.grid(row = 4, column = 37)
+        entry_y_change.grid(row = 4, column = 38, columnspan = 2)
+        add_button_change.grid(row = 4, column = 40, columnspan = 3, padx = 5, sticky = W)
+        
+
+
+def change_point():
+    index = int(entry_index.get())
+    point_x = entry_x_change.get()
+    point_y = entry_y_change.get()
+    if (not check_is_num(point_x) or not check_is_num(point_y)):
+        messagebox.showinfo('Ошибка: некорректный ввод', 'Пожалуйста, вводите координаты точек только в вещественном виде.')
+    else:
+        list_of_points[index].x = int(point_x)
+        list_of_points[index].y = int(point_y)
+        reset_lb()
+        entry_index.delete(0, END)
+        label_x_change.grid_forget()
+        entry_x_change.grid_forget()
+        label_y_change.grid_forget()
+        entry_y_change.grid_forget()
+        add_button_change.grid_forget()
+    entry_x_change.delete(0, END)
+    entry_y_change.delete(0, END)
+    
         
 
 root = Tk()
@@ -189,6 +221,9 @@ label_result.grid(row = 11, column = 30, rowspan = 7, columnspan = 20, sticky = 
 label_index = Label(root, text = 'Точку с индексом', relief = GROOVE)
 label_index.grid(row = 3, column = 34, columnspan = 5)
 
+label_x_change = Label(root, text = 'x:', relief = GROOVE)
+label_y_change = Label(root, text = 'y:', relief = GROOVE)
+
 #----------список точек---------
 points_lb = Listbox(root, height = 10, width = 20, bg = '#E7D8C9', selectbackground = '#B2967D')
 points_lb.grid(row = 3, column = 30, columnspan = 4, rowspan = 7, sticky = W)
@@ -204,9 +239,11 @@ entry_y = Entry(root, width = 10, bd = 2)
 entry_y.grid(row = 2, column = 34, sticky = W, columnspan = 2)
 entry_index = Entry(root, width = 5, bd = 2)
 entry_index.grid(row = 3, column = 39)
+
 # grid сделать в функции change()
 entry_x_change = Entry(root, width = 10, bd = 2)
 entry_y_change = Entry(root, width = 10, bd = 2)
+
 #-------------кнопки-------------
 add_button = Button(root, text = 'Добавить', command = add_point, relief = RIDGE, width = 10)
 add_button.grid(row = 2, column = 36, columnspan = 4, padx = 5, sticky = W)
@@ -222,6 +259,9 @@ clear_all_button.grid(row = 10, column = 32, columnspan = 4, padx = 5, sticky = 
 
 calculate_button = Button(root, text = 'Рассчитать', command = calculate, relief = RIDGE)
 calculate_button.grid(row = 10, column = 30, columnspan = 2, padx = 5)
+
+add_button_change = Button(root, text = 'Сохранить', command = change_point, relief = RIDGE, width = 8)
+
 
 root.mainloop()
 
