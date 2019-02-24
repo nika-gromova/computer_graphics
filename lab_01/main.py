@@ -75,18 +75,30 @@ def paint_triangle():
 
     corner = corner - 1
     pad = 10
-    
-    # вывод координат
-    main_canvas.create_text(copy_list_of_min[0].x + pad, copy_list_of_min[0].y + pad, text = '({:.3f}; {:.3f})'.format(list_of_min[0].x, list_of_min[0].y), font = ("Purisa", 14))
-    main_canvas.create_text(copy_list_of_min[1].x + pad, copy_list_of_min[1].y + pad, text = '({:.3f}; {:.3f})'.format(list_of_min[1].x, list_of_min[1].y), font = ("Purisa", 14))
-    main_canvas.create_text(copy_list_of_min[2].x + pad, copy_list_of_min[2].y + pad, text = '({:.3f}; {:.3f})'.format(list_of_min[2].x, list_of_min[2].y), font = ("Purisa", 14))
-    main_canvas.create_text(copy_middle.x + pad, copy_middle.y + pad, text = '({:.3f}; {:.3f})'.format(middle.x, middle.y), font = ("Purisa", 14))
 
     # рисование треугольника и медианы
-    main_canvas.create_line(copy_list_of_min[0].x, copy_list_of_min[0].y, copy_list_of_min[1].x, copy_list_of_min[1].y, fill = '#494949', width = 3)   
-    main_canvas.create_line(copy_list_of_min[1].x, copy_list_of_min[1].y, copy_list_of_min[2].x, copy_list_of_min[2].y, fill = '#494949', width = 3)
-    main_canvas.create_line(copy_list_of_min[0].x, copy_list_of_min[0].y, copy_list_of_min[2].x, copy_list_of_min[2].y, fill = '#494949', width = 3)
-    main_canvas.create_line(copy_list_of_min[corner].x, copy_list_of_min[corner].y, copy_middle.x, copy_middle.y, fill = '#FF5D73', width = 3)
+    main_canvas.create_line(copy_list_of_min[0].x, copy_list_of_min[0].y, copy_list_of_min[1].x, copy_list_of_min[1].y, fill = '#494949')   
+    main_canvas.create_line(copy_list_of_min[1].x, copy_list_of_min[1].y, copy_list_of_min[2].x, copy_list_of_min[2].y, fill = '#494949')
+    main_canvas.create_line(copy_list_of_min[0].x, copy_list_of_min[0].y, copy_list_of_min[2].x, copy_list_of_min[2].y, fill = '#494949')
+    main_canvas.create_line(copy_list_of_min[corner].x, copy_list_of_min[corner].y, copy_middle.x, copy_middle.y, fill = '#FF5D73')
+
+    # оси
+    main_canvas.create_line(10, 650, 10, 30, width = 3, arrow = LAST)
+    main_canvas.create_text(20, 30, text = "Y")
+    main_canvas.create_line(40, 680, 650, 680, width = 3, arrow = LAST)
+    main_canvas.create_text(650, 670, text = "X")
+    
+    # вывод координат
+    main_canvas.create_oval(copy_list_of_min[0].x, copy_list_of_min[0].y, copy_list_of_min[0].x, copy_list_of_min[0].y, width = 5, outline = '#800000')
+    main_canvas.create_oval(copy_list_of_min[1].x, copy_list_of_min[1].y, copy_list_of_min[1].x, copy_list_of_min[1].y, width = 5, outline = '#800000')
+    main_canvas.create_oval(copy_list_of_min[2].x, copy_list_of_min[2].y, copy_list_of_min[2].x, copy_list_of_min[2].y, width = 5, outline = '#800000')
+    main_canvas.create_oval(copy_middle.x, copy_middle.y, copy_middle.x, copy_middle.y, width = 5, outline = '#800000')
+    main_canvas.create_text(copy_list_of_min[0].x + pad, copy_list_of_min[0].y + pad, text = '({:.2f}; {:.2f})'.format(list_of_min[0].x, list_of_min[0].y), font = "-weight bold")#font = ("Purisa", 8))
+    main_canvas.create_text(copy_list_of_min[1].x + pad, copy_list_of_min[1].y + pad, text = '({:.2f}; {:.2f})'.format(list_of_min[1].x, list_of_min[1].y), font = "-weight bold")
+    main_canvas.create_text(copy_list_of_min[2].x + pad, copy_list_of_min[2].y + pad, text = '({:.2f}; {:.2f})'.format(list_of_min[2].x, list_of_min[2].y), font = "-weight bold")
+    main_canvas.create_text(copy_middle.x + pad, copy_middle.y + pad, text = '({:.2f}; {:.2f})'.format(middle.x, middle.y), font = "-weight bold")
+
+    
     
 def print_text():
     label_result.configure(text = 'Результат вычислений:\nНайден треугольник с минимальной медианой, координаты его вершин:\n({:.3f}; {:.3f}),\n({:.3f}; {:.3f}),\n({:.3f}; {:.3f}).\n'
