@@ -161,6 +161,11 @@ def clear():
         index = int(index_str)
         list_of_points.pop(index)
         reset_lb()
+        for i in range(0, 4):
+            scaling_params[i] = 0.0
+        scaling_params[4] = 1.0
+        scaling_params[5] = 1.0
+        minimum_median[0] = -1
     entry_index.delete(0, END)
 
 
