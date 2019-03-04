@@ -3,7 +3,10 @@
 #include <QPoint>
 #include "face.h"
 #include "eyes.h"
+#include "pic.h"
 
-void move_pic(face *k_face, eyes *k_eyes, double dx, double dy);
+void move_pic(pic *my_pic, double dx, double dy);
+void scale_pic(pic *my_pic, double cx, double cy, double kx, double ky);
+void rotate_pic(pic *my_pic, double cx, double cy, double degree);
 
 #endif // TRANSFORM_H

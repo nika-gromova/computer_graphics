@@ -70,7 +70,7 @@
        <item>
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>(радианы)</string>
+          <string>(градусы)</string>
          </property>
         </widget>
        </item>
