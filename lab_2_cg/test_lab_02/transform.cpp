@@ -19,7 +19,8 @@ void move_pic(face *k_face, eyes *k_eyes, double dx, double dy)
     move_point(&(k_eyes->bottomRight_2), dx, dy);
 }
 
-/*QPoint scale(QPoint point, double cx, double cy, double kx, double ky)
+/*QPoint scale_point(QPoint *point, double cx, double cy, double kx, double ky)
 {
-
+    double tmp_x = point->x();
+    double tmp_y = point->y();
 }*/

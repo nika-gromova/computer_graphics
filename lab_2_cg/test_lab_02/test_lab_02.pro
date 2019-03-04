@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     face.cpp \
     eyes.cpp \
-    transform.cpp
+    transform.cpp \
+    pic.cpp
 
 HEADERS += \
         mainwindow.h \
     face.h \
     eyes.h \
-    transform.h
+    transform.h \
+    pic.h
 
 FORMS += \
         mainwindow.ui

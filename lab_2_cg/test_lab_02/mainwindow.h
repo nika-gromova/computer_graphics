@@ -38,7 +38,7 @@ private:
     eyes *k_eyes;
 
     QStack <QVector<double>> previous_changes;
-
+    QVector <QPoint> pic_points;
 
     void delete_items(QGraphicsItemGroup *group);
 
