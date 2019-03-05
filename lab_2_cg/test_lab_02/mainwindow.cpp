@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     scene = new QGraphicsScene(this);
+    //scene->setSceneRect(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
     ui->graphicsView->setScene(scene);
 
     k_group = new QGraphicsItemGroup();

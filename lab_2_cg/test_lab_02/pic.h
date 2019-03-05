@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include <QGraphicsItem>
+#include <math.h>
 
 class pic : public QGraphicsItem
 {
@@ -36,6 +37,12 @@ public:
     QPoint test;
 
     QPolygon pic_points;
+    QPolygon face;
+    QPolygon eye_1;
+    QPolygon eye_2;
+    QPolygon pupil_1;
+    QPolygon pupil_2;
+    QVector <QPolygon> ellipses;
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
