@@ -1,7 +1,7 @@
 #include <math.h>
 #include "transform.h"
 #include <stdio.h>
-void move_point(QPoint &point, double dx, double dy)
+void move_point(QPointF &point, double dx, double dy)
 {
     double tmp_x = point.x();
     double tmp_y = point.y();
@@ -26,9 +26,14 @@ void move_pic(pic *my_pic, double dx, double dy)
     {
         move_point((my_pic->pic_points)[i], dx, dy);
     }
+    for (int i = 0; i < my_pic->ellipses.size(); i++)
+    {
+        for (int j = 0; j < my_pic->ellipses[i].size(); j++)
+            move_point(my_pic->ellipses[i][j], dx, dy);
+    }
 }
 
-void scale_point(QPoint &point, double cx, double cy, double kx, double ky)
+void scale_point(QPointF &point, double cx, double cy, double kx, double ky)
 {
     double tmp_x = point.x();
     double tmp_y = point.y();
@@ -42,9 +47,14 @@ void scale_pic(pic *my_pic, double cx, double cy, double kx, double ky)
     {
         scale_point((my_pic->pic_points)[i], cx, cy, kx, ky);
     }
+    for (int i = 0; i < my_pic->ellipses.size(); i++)
+    {
+        for (int j = 0; j < my_pic->ellipses[i].size(); j++)
+            scale_point(my_pic->ellipses[i][j], cx, cy, kx, ky);
+    }
 }
 
-void rotate_point(QPoint &point, double cx, double cy, double degree)
+void rotate_point(QPointF &point, double cx, double cy, double degree)
 {
     double radians = (degree * M_PI) / 180;
     double tmp_x = point.x();
@@ -53,70 +63,32 @@ void rotate_point(QPoint &point, double cx, double cy, double degree)
     point.setY(cy - (tmp_x - cx) * sin(radians) + (tmp_y - cy) * cos(radians));
 }
 
-void change_ellipse_params(QPoint &point_top, QPoint &point_bottom)
+void rotate_pic(pic *my_pic, double cx, double cy, double degree)
 {
-    int tmp_x;
-    int tmp_y;
-    if (!(point_top.x() < point_bottom.x()) || !(point_top.y() < point_bottom.y()))
+    for (int i = 0; i < my_pic->pic_points.size(); i++)
     {
-        if (point_top.x() > point_bottom.x())
-        {
-            if (point_top.y() > point_bottom.y())
-            {
-                tmp_x = point_top.x();
-                tmp_y = point_top.y();
-                point_top.setX(point_bottom.x());
-                point_top.setY(point_bottom.y());
-                point_bottom.setX(tmp_x);
-                point_bottom.setY(tmp_y);
-            }
-            else
-            {
-                tmp_x = point_top.x();
-                point_top.setX(point_bottom.x());
-                point_bottom.setX(tmp_x);
-            }
-        }
-        else
-        {
-            tmp_y = point_top.y();
-            point_top.setY(point_bottom.y());
-            point_bottom.setY(tmp_y);
-        }
+        rotate_point((my_pic->pic_points)[i], cx, cy, degree);
+    }
+    for (int i = 0; i < my_pic->ellipses.size(); i++)
+    {
+        for (int j = 0; j < my_pic->ellipses[i].size(); j++)
+            rotate_point(my_pic->ellipses[i][j], cx, cy, degree);
     }
 }
 
-void rotate_ellipse(QPoint &point_top, QPoint &point_bottom, double cx, double cy, double degree)
+void copy_pic(pic *dst, pic *src)
 {
-    QPoint center;
-    int width = point_bottom.x() - point_top.x();
-    int height = point_bottom.y() - point_top.y();
-    center.setX((point_top.x() + point_bottom.x()) / 2);
-    center.setY((point_top.y() + point_bottom.y()) / 2);
-    rotate_point(center, cx, cy, degree);
-    point_top.setX(center.x() - width / 2);
-    point_top.setY(center.y() - height / 2);
-    point_bottom.setX(center.x() + width / 2);
-    point_bottom.setY(center.y() + height / 2);
-    //rotate_point(point_top, center.x(), center.y(), degree);
-    //rotate_point(point_bottom, center.x(), center.y(), degree);
-    //change_ellipse_params(point_top, point_bottom);
-}
-
-
-void rotate_pic(pic *my_pic, double cx, double cy, double degree)
-{
-    /*rotate_point((my_pic->pic_points)[4], cx, cy, degree);
-    rotate_point((my_pic->pic_points)[5], cx, cy, degree);
-    printf("%d %d\n", (my_pic->pic_points[4]).x(), (my_pic->pic_points[4]).y());
-    printf("%d %d\n", (my_pic->pic_points[5]).x(), (my_pic->pic_points[5]).y());
-    change_ellipse_params((my_pic->pic_points)[4], (my_pic->pic_points)[5]);
-    printf("%d %d\n", (my_pic->pic_points[4]).x(), (my_pic->pic_points[4]).y());
-    printf("%d %d\n", (my_pic->pic_points[5]).x(), (my_pic->pic_points[5]).y());
-    rotate_point((my_pic->pic_points)[24], cx, cy, degree);*/
-    rotate_ellipse(my_pic->pic_points[0], my_pic->pic_points[1], cx, cy, degree);
-    for (int i = 6; i < my_pic->pic_points.size(); i++)
+    for (int i = 0; i < dst->ellipses.size(); i++)
     {
-        rotate_point((my_pic->pic_points)[i], cx, cy, degree);
+        for (int j = 0; j < dst->ellipses[i].size(); j++)
+        {
+            dst->ellipses[i][j].setX(src->ellipses[i][j].x());
+            dst->ellipses[i][j].setY(src->ellipses[i][j].y());
+        }
+    }
+    for (int i = 0; i < dst->pic_points.size(); i++)
+    {
+        dst->pic_points[i].setX(src->pic_points[i].x());
+        dst->pic_points[i].setY(src->pic_points[i].y());
     }
 }

@@ -3,50 +3,42 @@
 
 #include <QPainter>
 #include <QGraphicsItem>
+#include <QPoint>
+#include <QPointF>
+#include <QPolygon>
+#include <QPolygonF>
 #include <math.h>
 
 class pic : public QGraphicsItem
 {
 public:
     pic();
-    QPoint face_top_left;
-    QPoint face_bootom_right;
-    QPoint eye_top_left_1;
-    QPoint eye_bottom_rigth_1;
-    QPoint eye_top_left_2;
-    QPoint eye_bottom_rigth_2;
-    QPoint hair_top_1;
-    QPoint hair_bottom_1;
-    QPoint hair_top_2;
-    QPoint hair_bottom_2;
-    QPoint hair_top_3;
-    QPoint hair_bottom_3;
-    QPoint hair_top_4;
-    QPoint hair_bottom_4;
-    QPoint nose_up;
-    QPoint nose_left;
-    QPoint nose_right;
-    QPoint mounth_left;
-    QPoint mounth_right;
-    QPoint mounth_bottom;
-    QPoint pupil_top_1;
-    QPoint pupil_bot_1;
-    QPoint pupil_top_2;
-    QPoint pupil_bot_2;
 
-    QPoint test;
+    QPointF hair_top_1;
+    QPointF hair_bottom_1;
+    QPointF hair_top_2;
+    QPointF hair_bottom_2;
+    QPointF hair_top_3;
+    QPointF hair_bottom_3;
+    QPointF hair_top_4;
+    QPointF hair_bottom_4;
+    QPointF nose_up;
+    QPointF nose_left;
+    QPointF nose_right;
+    QPointF mounth_left;
+    QPointF mounth_right;
+    QPointF mounth_bottom;
 
-    QPolygon pic_points;
-    QPolygon face;
-    QPolygon eye_1;
-    QPolygon eye_2;
-    QPolygon pupil_1;
-    QPolygon pupil_2;
-    QVector <QPolygon> ellipses;
+    QPolygonF pic_points;
+    QPolygonF face;
+    QPolygonF eye_1;
+    QPolygonF eye_2;
+    QPolygonF pupil_1;
+    QPolygonF pupil_2;
+    QVector <QPolygonF> ellipses;
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
 };
 
 #endif // PIC_H

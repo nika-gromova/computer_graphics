@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <QMessageBox>
 
+#define EPS 1e-10
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -11,8 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     scene = new QGraphicsScene(this);
-    //scene->setSceneRect(0, 0, ui->graphicsView->width(), ui->graphicsView->height());
     ui->graphicsView->setScene(scene);
+    scene->setSceneRect(0, 0, 540, 540);
 
     k_group = new QGraphicsItemGroup();
     scene->addItem(k_group);
@@ -20,13 +22,19 @@ MainWindow::MainWindow(QWidget *parent) :
     k_pic = new pic();
     k_group->addToGroup(k_pic);
 
+    k_pic_reserve = new pic();
+    null_scale = false;
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete scene;
+    delete k_group;
+    delete k_pic;
+    delete k_pic_reserve;
 }
-
 
 
 void MainWindow::on_move_pushButton_clicked()
@@ -44,8 +52,6 @@ void MainWindow::on_move_pushButton_clicked()
         move_pic(k_pic, dx, dy);
         scene->update();
     }
-    ui->move_dx_edit->clear();
-    ui->move_dy_edit->clear();
 }
 
 void MainWindow::on_scale_pushButton_clicked()
@@ -58,16 +64,18 @@ void MainWindow::on_scale_pushButton_clicked()
     double yc;
     double kx;
     double ky;
+    static bool info = true;
+    static bool null_scale = false;
     if (x_str.isEmpty())
     {
-        xc = (k_pic->pic_points[0].x() + k_pic->pic_points[1].x()) / 2;//0.0;
+        xc = 270;//0.0;
         flag_xc = true;
     }
     else
         xc = x_str.toDouble(&ok_1);
     if (y_str.isEmpty())
     {
-        yc = (k_pic->pic_points[0].y() + k_pic->pic_points[1].y()) / 2;//0.0;
+        yc = 270;//0.0;
         flag_yc = true;
     }
     else
@@ -81,12 +89,37 @@ void MainWindow::on_scale_pushButton_clicked()
     else
     {
         if (flag_xc && flag_yc)
-            QMessageBox::information(this, "Не указан центр масштабирования", "Масштабирование будет производиться относительно центра фигуры.");
+        {
+            if (info)
+            {
+                QMessageBox::information(this, "Не указан центр поворота", "Поворот будет производиться относительно центра области рисования.");
+                info = false;
+            }
+        }
         else if (flag_xc)
+        {
+            info = true;
             xc = 0.0;
+        }
         else if (flag_yc)
+        {
+            info = false;
             yc = 0.0;
-        previous_changes.push({2, xc, yc, kx, ky});
+        }
+        else
+            info = false;
+        if (fabs(kx) <= EPS || fabs(ky) <= EPS)
+        {
+            QMessageBox::information(this, "Масштабирование с нулевым(и) коэффициентом", "Изображение выродится в точку или в прямую.");
+            previous_changes.push({4});
+            if (null_scale == false)
+            {
+                copy_pic(k_pic_reserve, k_pic);
+                null_scale = true;
+            }
+        }
+        else
+            previous_changes.push({2, xc, yc, kx, ky});
         scale_pic(k_pic, xc, yc, kx, ky);
         scene->update();
     }
@@ -101,16 +134,17 @@ void MainWindow::on_rotate_pushButton_clicked()
     double xc;
     double yc;
     double degrees;
+    static bool info = true;
     if (x_str.isEmpty())
     {
-        xc = (k_pic->pic_points[0].x() + k_pic->pic_points[1].x()) / 2;//0.0;
+        xc = 270;//0.0;
         flag_xc = true;
     }
     else
         xc = x_str.toDouble(&ok_1);
     if (y_str.isEmpty())
     {
-        yc = (k_pic->pic_points[0].y() + k_pic->pic_points[1].y()) / 2;//0.0;
+        yc = 270;//0.0;
         flag_yc = true;
     }
     else
@@ -122,11 +156,25 @@ void MainWindow::on_rotate_pushButton_clicked()
     else
     {
         if (flag_xc && flag_yc)
-            QMessageBox::information(this, "Не указан центр поворота", "Поворот будет производиться относительно центра фигуры.");
+        {
+            if (info)
+            {
+                QMessageBox::information(this, "Не указан центр поворота", "Поворот будет производиться относительно центра области рисования.");
+                info = false;
+            }
+        }
         else if (flag_xc)
+        {
+            info = true;
             xc = 0.0;
+        }
         else if (flag_yc)
+        {
+            info = true;
             yc = 0.0;
+        }
+        else
+            info = true;
         printf("%.3lf %.3lf\n", xc, yc);
         previous_changes.push({3, xc, yc, degrees});
         rotate_pic(k_pic, xc, yc, degrees);
@@ -165,13 +213,26 @@ void MainWindow::on_back_pushButton_clicked()
             rotate_pic(k_pic, tmp[1], tmp[2], (-1) * tmp[3]);
             scene->update();
         }
+        else if (tmp[0] == 4)
+        {
+            copy_pic(k_pic, k_pic_reserve);
+            null_scale = false;
+            scene->update();
+        }
+        else if (tmp[0] == 5)
+        {
+            copy_pic(k_pic, k_pic_reserve);
+            scene->update();
+        }
     }
 }
 
 void MainWindow::on_initial_clicked()
 {
-    while (!previous_changes.isEmpty())
-        previous_changes.pop();
+    copy_pic(k_pic_reserve, k_pic);
+    previous_changes.push({5});
+    /*while (!previous_changes.isEmpty())
+        previous_changes.pop();*/
 
     scene->clear();
     scene->update();

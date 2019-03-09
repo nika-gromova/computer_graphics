@@ -8,8 +8,6 @@
 #include <QVector>
 #include <QStack>
 
-#include "face.h"
-#include "eyes.h"
 #include "pic.h"
 
 namespace Ui {
@@ -39,11 +37,12 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QGraphicsItemGroup *k_group;
-    face *k_face;
-    eyes *k_eyes;
     pic *k_pic;
+    pic *k_pic_reserve;
+    bool null_scale;
 
     QStack <QVector<double>> previous_changes;
+
 
     void delete_items(QGraphicsItemGroup *group);
 

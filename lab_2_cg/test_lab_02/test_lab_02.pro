@@ -26,15 +26,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    face.cpp \
-    eyes.cpp \
     transform.cpp \
     pic.cpp
 
 HEADERS += \
         mainwindow.h \
-    face.h \
-    eyes.h \
     transform.h \
     pic.h
 
