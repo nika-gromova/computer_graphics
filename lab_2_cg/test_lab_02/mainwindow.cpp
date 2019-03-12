@@ -197,16 +197,19 @@ void MainWindow::on_back_pushButton_clicked()
         if (tmp[0] == 1)
         {
             move_pic(k_pic, (-1) * tmp[1], (-1) * tmp[2]);
+            move_pic(k_pic_reserve, (-1) * tmp[1], (-1) * tmp[2]);
             scene->update();
         }
         else if (tmp[0] == 2)
         {
             scale_pic(k_pic, tmp[1], tmp[2], 1 / tmp[3], 1 / tmp[4]);
+            scale_pic(k_pic_reserve, tmp[1], tmp[2], 1 / tmp[3], 1 / tmp[4]);
             scene->update();
         }
         else if (tmp[0] == 3)
         {
             rotate_pic(k_pic, tmp[1], tmp[2], (-1) * tmp[3]);
+            rotate_pic(k_pic_reserve, tmp[1], tmp[2], (-1) * tmp[3]);
             scene->update();
         }
         else if (tmp[0] == 4)
