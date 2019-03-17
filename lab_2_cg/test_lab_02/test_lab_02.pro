@@ -24,15 +24,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
+    main.cpp \
+    mainwindow.cpp \
     transform.cpp \
     pic.cpp
 
 HEADERS += \
-        mainwindow.h \
+    mainwindow.h \
     transform.h \
     pic.h
 
 FORMS += \
-        mainwindow.ui
+    mainwindow.ui

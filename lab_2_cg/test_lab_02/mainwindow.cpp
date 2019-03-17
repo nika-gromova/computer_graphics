@@ -30,10 +30,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete scene;
-    delete k_group;
-    delete k_pic;
-    delete k_pic_reserve;
 }
 
 
@@ -92,7 +88,7 @@ void MainWindow::on_scale_pushButton_clicked()
         {
             if (info)
             {
-                QMessageBox::information(this, "Не указан центр поворота", "Поворот будет производиться относительно центра области рисования.");
+                QMessageBox::information(this, "Не указан центр поворота", "Масштабирование будет производиться относительно центра области рисования.");
                 info = false;
             }
         }
@@ -103,7 +99,7 @@ void MainWindow::on_scale_pushButton_clicked()
         }
         else if (flag_yc)
         {
-            info = false;
+            info = true;
             yc = 0.0;
         }
         else
@@ -201,16 +197,19 @@ void MainWindow::on_back_pushButton_clicked()
         if (tmp[0] == 1)
         {
             move_pic(k_pic, (-1) * tmp[1], (-1) * tmp[2]);
+            move_pic(k_pic_reserve, (-1) * tmp[1], (-1) * tmp[2]);
             scene->update();
         }
         else if (tmp[0] == 2)
         {
             scale_pic(k_pic, tmp[1], tmp[2], 1 / tmp[3], 1 / tmp[4]);
+            scale_pic(k_pic_reserve, tmp[1], tmp[2], 1 / tmp[3], 1 / tmp[4]);
             scene->update();
         }
         else if (tmp[0] == 3)
         {
             rotate_pic(k_pic, tmp[1], tmp[2], (-1) * tmp[3]);
+            rotate_pic(k_pic_reserve, tmp[1], tmp[2], (-1) * tmp[3]);
             scene->update();
         }
         else if (tmp[0] == 4)
