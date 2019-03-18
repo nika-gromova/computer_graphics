@@ -24,6 +24,8 @@ private slots:
 
     void on_draw_sun_Button_clicked();
 
+    void on_compare_time_Button_clicked();
+
 private:
     Ui::MainWindow *ui;
     QPixmap *my_scene;

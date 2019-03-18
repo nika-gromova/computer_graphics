@@ -24,13 +24,13 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>построение отрезков</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -174,7 +174,7 @@
        <string>центр:</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -200,13 +200,13 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>181</width>
-        <height>71</height>
+        <width>187</width>
+        <height>80</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -315,13 +315,13 @@
      <string>Очистить</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>590</x>
       <y>240</y>
       <width>333</width>
-      <height>141</height>
+      <height>161</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -342,35 +342,42 @@
        <item>
         <widget class="QRadioButton" name="dda_radioButton">
          <property name="text">
-          <string>ЦДА</string>
+          <string>1. ЦДА</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QRadioButton" name="bre_double_radioButton">
          <property name="text">
-          <string>Брезенхема с действительными числами</string>
+          <string>2. Брезенхема с действительными числами</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QRadioButton" name="bre_integer_radioButton">
          <property name="text">
-          <string>Брезенхема с целыми числами</string>
+          <string>3. Брезенхема с целыми числами</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QRadioButton" name="bre_stairs_radioButton">
          <property name="text">
-          <string>Брезенхема с устранением ступенчатости</string>
+          <string>4. Брезенхема с устранением ступенчатости</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QRadioButton" name="lib_radioButton">
          <property name="text">
-          <string>Библиотечный алгоритм</string>
+          <string>5. Библиотечный алгоритм</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="wu_radioButton">
+         <property name="text">
+          <string>6. Алгоритм Ву</string>
          </property>
         </widget>
        </item>
@@ -378,7 +385,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>590</x>
@@ -444,9 +451,27 @@
      </item>
     </layout>
    </widget>
+   <widget class="QCustomPlot" name="plot_widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>571</width>
+      <height>571</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -235,6 +235,7 @@ Makefile: ../lab_03_cg/lab_03_cg.pro C:/msys64/mingw64/share/qt5/mkspecs/win32-g
 		C:/msys64/mingw64/share/qt5/mkspecs/features/lex.prf \
 		../lab_03_cg/lab_03_cg.pro \
 		C:/msys64/mingw64/lib/qtmaind.prl \
+		C:/msys64/mingw64/lib/Qt5PrintSupport.prl \
 		C:/msys64/mingw64/lib/Qt5Widgets.prl \
 		C:/msys64/mingw64/lib/Qt5Gui.prl \
 		C:/msys64/mingw64/lib/Qt5Core.prl
@@ -413,6 +414,7 @@ C:/msys64/mingw64/share/qt5/mkspecs/features/yacc.prf:
 C:/msys64/mingw64/share/qt5/mkspecs/features/lex.prf:
 ../lab_03_cg/lab_03_cg.pro:
 C:/msys64/mingw64/lib/qtmaind.prl:
+C:/msys64/mingw64/lib/Qt5PrintSupport.prl:
 C:/msys64/mingw64/lib/Qt5Widgets.prl:
 C:/msys64/mingw64/lib/Qt5Gui.prl:
 C:/msys64/mingw64/lib/Qt5Core.prl:
