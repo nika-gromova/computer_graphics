@@ -11,7 +11,7 @@ void dda(int x_start, int y_start, int x_end, int y_end, QPainter &painter)
     double y = y_start;
     for (int i = 0; i < len + 1; i++)
     {
-        painter.drawPoint((int)x, (int)y);
+        painter.drawPoint((int)round(x), (int)round(y));
         x += sx;
         y += sy;
     }
@@ -92,7 +92,7 @@ void bre_int(int x_start, int y_start, int x_end, int y_end, QPainter &painter)
     int e = 2 * dy - dx;
     for (int i = 0; i < dx + 1; i++)
     {
-        painter.drawPoint((int)x, (int)y);
+        painter.drawPoint(x, y);
         if (e >= 0.0)
         {
             if (!swap)
@@ -128,7 +128,7 @@ void bre_stairs(int x_start, int y_start, int x_end, int y_end, QPainter &painte
     double e = imax * 0.5;
     m = m * imax;
     double w = imax - m;
-    color.setAlphaF(e / imax);
+    color.setAlphaF(e / imax); // установление яркости
     painter.setPen(color); // установление самого цвета
     painter.drawPoint(x, y);
     for (int i = 0; i < dx; i++)
