@@ -18,6 +18,14 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_draw_circle_button_clicked();
+
+    void on_draw_ellipse_button_clicked();
+
+    void on_draw_circles_Button_clicked();
+
+    void on_draw_ellipses_Button_clicked();
+
 private:
     Ui::MainWindow *ui;
     QPixmap *my_scene;

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -354,7 +354,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="x_center_cercle_edit"/>
+          <widget class="QLineEdit" name="x_center_circle_edit"/>
          </item>
          <item>
           <widget class="QLabel" name="label_12">
@@ -369,7 +369,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="y_center_cercle_edit"/>
+          <widget class="QLineEdit" name="y_center_circle_edit"/>
          </item>
         </layout>
        </item>
@@ -481,7 +481,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
