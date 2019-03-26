@@ -14,5 +14,5 @@ void lib_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter);
 
 
 void draw_circles(int &xc, int &yc, int &r_start, int &r_end, int &step, QPainter &painter, void (*draw_circle)(int &, int&, int &, QPainter &));
-void draw_ellipses(int &xc, int &yc, int &a_start, int &a_end, int &step, int &b_start, QPainter &painter, void (*draw_ellipse)(int &, int&, int &, int &, QPainter &));
+void draw_ellipses(int &xc, int &yc, int &a_start, int &b_start, int &step, int &n, QPainter &painter, void (*draw_ellipse)(int &, int&, int &, int &, QPainter &));
 #endif // ALGORITHMS_H
