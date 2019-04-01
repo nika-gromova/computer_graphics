@@ -125,21 +125,21 @@ void MainWindow::on_draw_circle_button_clicked()
             {
                 check_color();
                 if (ui->canon_radioButton->isChecked())
-                    canon_circle(xc, yc, r, *painter);
+                    canon_circle(xc, yc, r, *painter, true);
                 if (ui->param_radioButton->isChecked())
                 {
-                    param_circle(xc, yc, r, *painter);
+                    param_circle(xc, yc, r, *painter, true);
                 }
                 if (ui->bre_radioButton->isChecked())
                 {
-                    bre_circle(xc, yc, r, *painter);
+                    bre_circle(xc, yc, r, *painter, true);
                 }
                 if (ui->midpoint_radioButton->isChecked())
                 {
-                    midpoint_circle(xc, yc, r, *painter);
+                    midpoint_circle(xc, yc, r, *painter, true);
                 }
                 if (ui->lib_radioButton->isChecked())
-                    lib_circle(xc, yc, r, *painter);
+                    lib_circle(xc, yc, r, *painter, true);
 
             }
             ui->draw_label->setPixmap(*my_scene);
@@ -172,21 +172,21 @@ void MainWindow::on_draw_ellipse_button_clicked()
             {
                 check_color();
                 if (ui->canon_radioButton->isChecked())
-                    canon_ellipse(xc, yc, a, b, *painter);
+                    canon_ellipse(xc, yc, a, b, *painter, true);
                 if (ui->param_radioButton->isChecked())
                 {
-                    param_ellipse(xc, yc, a, b, *painter);
+                    param_ellipse(xc, yc, a, b, *painter, true);
                 }
                 if (ui->bre_radioButton->isChecked())
                 {
-                    bre_ellipse(xc, yc, a, b, *painter);
+                    bre_ellipse(xc, yc, a, b, *painter, true);
                 }
                 if (ui->midpoint_radioButton->isChecked())
                 {
-                    midpoint_ellipse(xc, yc, a, b, *painter);
+                    midpoint_ellipse(xc, yc, a, b, *painter, true);
                 }
                 if (ui->lib_radioButton->isChecked())
-                    lib_ellipse(xc, yc, a, b, *painter);
+                    lib_ellipse(xc, yc, a, b, *painter, true);
 
             }
             ui->draw_label->setPixmap(*my_scene);
@@ -276,35 +276,35 @@ unsigned long long tick(void)
     return d;
 }
 
-double time_circle(void (*draw_circle)(int &, int&, int &, QPainter &), int &r, QPainter &pen)
+double time_circle(void (*draw_circle)(int &, int&, int &, QPainter &, bool), int &r, QPainter &pen)
 {
-    //unsigned long long t1;
-    clock_t t1;
+    unsigned long long t1;
+    //clock_t t1;
     double tmp;
     int xc = 0;
     int yc = 0;
-    t1 = clock();
+    /*t1 = clock();
     for (int i = 0; i < 100; i++)
-        draw_circle(xc, yc, r, pen);
+        draw_circle(xc, yc, r, pen, true);
     t1 = clock() - t1;
     tmp = ((double)t1) / CLOCKS_PER_SEC;
     printf("%lf\n", tmp);
-    return tmp;
+    return tmp;*/
 
-    /*t1 = tick();
+    t1 = tick();
     for (int i = 0; i < 10; i++)
-        draw_circle(xc, yc, r, pen);
+        draw_circle(xc, yc, r, pen, false);
     t1 = tick() - t1;
     tmp = ((double)t1) / 3.5e9;
     printf("%lf\n", tmp);
-    return tmp;*/
+    return tmp;
 }
 
 void MainWindow::on_compare_time_circle_Button_clicked()
 {
     QVector <double> radius;
     QVector <QVector<double>> seconds_circle(5);
-    for (int i = 0; i < 600; i += 10)
+    for (int i = 1; i <= 600; i += 10)
     {
         radius.append(i);
         (seconds_circle[0]).append(time_circle(canon_circle, i, *painter));
@@ -328,14 +328,15 @@ void MainWindow::on_compare_time_circle_Button_clicked()
       ui->plot_widget->graph()->setName(lineNames.at(i));
       ui->plot_widget->graph()->setLineStyle(QCPGraph::lsLine);
       ui->plot_widget->graph()->setData(radius, seconds_circle[i]);
-      ui->plot_widget->graph()->rescaleAxes(true);
+
     }
+    ui->plot_widget->graph()->rescaleAxes(true);
     // легенда в левом верхнем углу
     ui->plot_widget->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignTop);
     ui->plot_widget->legend->setVisible(true);
     // границы по x и по y
-    ui->plot_widget->yAxis->setRange(0,  0.03);
-    ui->plot_widget->xAxis->scaleRange(0, 600);
+    ui->plot_widget->yAxis->setRange(0,  0.0001);
+    ui->plot_widget->xAxis->scaleRange(0, 610);
 
     ui->plot_widget->xAxis->setLabel("Радиус");
     ui->plot_widget->yAxis->setLabel("Время (секунды)");
