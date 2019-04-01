@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
-
+#include <time.h>
 #include "algorithms.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -97,6 +97,7 @@ void MainWindow::on_pushButton_clicked()
     painter = new QPainter(my_scene);
     painter->setPen(Qt::black);
     ui->draw_label->setPixmap(*my_scene);
+    ui->plot_widget->clearGraphs();
     ui->plot_widget->setVisible(false);
 }
 
@@ -135,7 +136,7 @@ void MainWindow::on_draw_circle_button_clicked()
                 }
                 if (ui->midpoint_radioButton->isChecked())
                 {
-                    ok_2 = true;
+                    midpoint_circle(xc, yc, r, *painter);
                 }
                 if (ui->lib_radioButton->isChecked())
                     lib_circle(xc, yc, r, *painter);
@@ -182,7 +183,7 @@ void MainWindow::on_draw_ellipse_button_clicked()
                 }
                 if (ui->midpoint_radioButton->isChecked())
                 {
-                    ok_2 = true;
+                    midpoint_ellipse(xc, yc, a, b, *painter);
                 }
                 if (ui->lib_radioButton->isChecked())
                     lib_ellipse(xc, yc, a, b, *painter);
@@ -225,9 +226,7 @@ void MainWindow::on_draw_circles_Button_clicked()
             if (ui->bre_radioButton->isChecked())
                 draw_circles(xc, yc, r_start, r_end, step, *painter, bre_circle);
             if (ui->midpoint_radioButton->isChecked())
-            {
-                ok_2 = true;
-            }
+                draw_circles(xc, yc, r_start, r_end, step, *painter, midpoint_circle);
             if (ui->lib_radioButton->isChecked())
                 draw_circles(xc, yc, r_start, r_end, step, *painter, lib_circle);
         }
@@ -255,7 +254,6 @@ void MainWindow::on_draw_ellipses_Button_clicked()
         else
         {
             check_color();
-            check_color();
             if (ui->canon_radioButton->isChecked())
                 draw_ellipses(xc, yc, a_start, b_start, step, n, *painter, canon_ellipse);
             if (ui->param_radioButton->isChecked())
@@ -263,12 +261,95 @@ void MainWindow::on_draw_ellipses_Button_clicked()
             if (ui->bre_radioButton->isChecked())
                 draw_ellipses(xc, yc, a_start, b_start, step, n, *painter, bre_ellipse);
             if (ui->midpoint_radioButton->isChecked())
-            {
-                ok_2 = true;
-            }
+                draw_ellipses(xc, yc, a_start, b_start, step, n, *painter, midpoint_ellipse);
             if (ui->lib_radioButton->isChecked())
                 draw_ellipses(xc, yc, a_start, b_start, step, n, *painter, lib_ellipse);
         }
         ui->draw_label->setPixmap(*my_scene);
     }
+}
+
+unsigned long long tick(void)
+{
+    unsigned long long d;
+    __asm__ __volatile__ ("rdtsc" : "=A"(d));
+    return d;
+}
+
+double time_circle(void (*draw_circle)(int &, int&, int &, QPainter &), int &r, QPainter &pen)
+{
+    //unsigned long long t1;
+    clock_t t1;
+    double tmp;
+    int xc = 0;
+    int yc = 0;
+    t1 = clock();
+    for (int i = 0; i < 100; i++)
+        draw_circle(xc, yc, r, pen);
+    t1 = clock() - t1;
+    tmp = ((double)t1) / CLOCKS_PER_SEC;
+    printf("%lf\n", tmp);
+    return tmp;
+
+    /*t1 = tick();
+    for (int i = 0; i < 10; i++)
+        draw_circle(xc, yc, r, pen);
+    t1 = tick() - t1;
+    tmp = ((double)t1) / 3.5e9;
+    printf("%lf\n", tmp);
+    return tmp;*/
+}
+
+void MainWindow::on_compare_time_circle_Button_clicked()
+{
+    QVector <double> radius;
+    QVector <QVector<double>> seconds_circle(5);
+    for (int i = 0; i < 600; i += 10)
+    {
+        radius.append(i);
+        (seconds_circle[0]).append(time_circle(canon_circle, i, *painter));
+        (seconds_circle[1]).append(time_circle(param_circle, i, *painter));
+        (seconds_circle[2]).append(time_circle(bre_circle, i, *painter));
+        (seconds_circle[3]).append(time_circle(midpoint_circle, i, *painter));
+        (seconds_circle[4]).append(time_circle(lib_circle, i, *painter));
+    }
+
+    ui->plot_widget->legend->setFont(QFont("Helvetica", 9));
+    QPen pen;
+    QStringList lineNames;
+    lineNames << "Канонический" << "Параметрический" << "Брезенхема" << "Средней точки" << "Библиотечный";
+    for (int i = 0; i < 5; ++i)
+    {
+      ui->plot_widget->addGraph();
+      // красивый градиентный цвет для линий
+      pen.setColor(QColor(qSin(i*1+1.2)*80+80, qSin(i*0.3+0)*80+80, qSin(i*0.3+1.5)*80+80));
+      pen.setWidth(5);
+      ui->plot_widget->graph()->setPen(pen);
+      ui->plot_widget->graph()->setName(lineNames.at(i));
+      ui->plot_widget->graph()->setLineStyle(QCPGraph::lsLine);
+      ui->plot_widget->graph()->setData(radius, seconds_circle[i]);
+      ui->plot_widget->graph()->rescaleAxes(true);
+    }
+    // легенда в левом верхнем углу
+    ui->plot_widget->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignTop);
+    ui->plot_widget->legend->setVisible(true);
+    // границы по x и по y
+    ui->plot_widget->yAxis->setRange(0,  0.03);
+    ui->plot_widget->xAxis->scaleRange(0, 600);
+
+    ui->plot_widget->xAxis->setLabel("Радиус");
+    ui->plot_widget->yAxis->setLabel("Время (секунды)");
+
+    ui->plot_widget->xAxis->setTicks(true);
+    ui->plot_widget->yAxis->setTicks(true);
+    ui->plot_widget->xAxis->setTickLabels(true);
+    ui->plot_widget->yAxis->setTickLabels(true);
+
+    ui->plot_widget->replot();
+    ui->plot_widget->setVisible(true);
+}
+
+void MainWindow::on_compare_time_ellipse_Button_clicked()
+{
+    return;
 }

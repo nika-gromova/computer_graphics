@@ -8,6 +8,8 @@ void param_circle(int &xc, int &yc, int &r, QPainter &painter);
 void param_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter);
 void bre_circle(int &xc, int &yc, int &r, QPainter &painter);
 void bre_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter);
+void midpoint_circle(int &xc, int &yc, int &r, QPainter &painter);
+void midpoint_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter);
 
 void lib_circle(int &xc, int &yc, int &r, QPainter &painter);
 void lib_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter);

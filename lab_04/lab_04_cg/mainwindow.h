@@ -26,6 +26,10 @@ private slots:
 
     void on_draw_ellipses_Button_clicked();
 
+    void on_compare_time_circle_Button_clicked();
+
+    void on_compare_time_ellipse_Button_clicked();
+
 private:
     Ui::MainWindow *ui;
     QPixmap *my_scene;

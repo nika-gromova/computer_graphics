@@ -1,5 +1,5 @@
 #include "algorithms.h"
-
+#include <ctime>
 void canon_circle(int &xc, int &yc, int &r, QPainter &painter)
 {
     double x, y;
@@ -43,6 +43,7 @@ void param_circle(int &xc, int &yc, int &r, QPainter &painter)
 
 void bre_circle(int &xc, int &yc, int &r, QPainter &painter)
 {
+
     int x = 0, y = r;
     int d = 2 * (1 - r);
     int d1 = 0, d2 = 0;
@@ -86,6 +87,52 @@ void bre_circle(int &xc, int &yc, int &r, QPainter &painter)
     }
 }
 
+void midpoint_circle(int &xc, int &yc, int &r, QPainter &painter)
+{
+    int x = 0;
+    int y = r;
+    int df = 0;
+    int delta = -2 * y;
+
+
+    int x_bound = r / sqrt(2);
+    int f = 1.25 - r;
+
+    for (; x <= x_bound; x++)
+    {
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
+        if (f >= 0)
+        {
+            y -= 1;
+            delta += 2;
+            f += delta;
+        }
+        df += 2;
+        f += df + 1;
+    }
+
+    delta = 2 * x;
+    df = -2 * y;
+    f += -x - y;
+    for (; y >= 0; y--)
+    {
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
+        if (f < 0)
+        {
+            x += 1;
+            delta += 2;
+            f += delta;
+        }
+        df += 2;
+        f += 1 + df;
+    }
+}
 
 void lib_circle(int &xc, int &yc, int &r, QPainter &painter)
 {
@@ -206,24 +253,59 @@ void bre_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter)
 
 void midpoint_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter)
 {
-    /*
     int a2 = a * a;
     int b2 = b * b;
     int da2 = 2 * a2;
     int db2 = 2 * b2;
-    int y = (b != 0) ? b : a;
+    int x = 0;
+    int y = b;
+    int df = 0;
+    int delta = -da2 * y;
+
+
     int x_bound = a2 / sqrt(a2 + b2);
     int f = b2 - a2 * b + 0.25 * a2;
-    int df = 0;
-    for (int x = 0; x <= x_bound; x++)
+
+    if (b == 0)
+        f = -1;
+
+    for (; x <= x_bound; x++)
     {
         painter.drawPoint(xc + x, yc + y);
         painter.drawPoint(xc - x, yc + y);
         painter.drawPoint(xc + x, yc - y);
         painter.drawPoint(xc - x, yc - y);
+        if (f >= 0)
+        {
+            y -= 1;
+            delta += da2;
+            f += delta;
+        }
+        df += db2;
+        f += df + b2;
     }
-    */
-    return;
+
+    if (a == 0)
+        x = 0;
+
+    delta = db2 * x;
+    df = -da2 * y;
+    f += 0.75 * (a2 - b2) - a2 * y - b2 * x;
+    for (; y >= 0; y--)
+    {
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
+        if (f < 0)
+        {
+            x += 1;
+            delta += db2;
+            f += delta;
+        }
+        df += da2;
+        f += a2 + df;
+    }
 }
 
 void lib_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter)
@@ -244,6 +326,7 @@ void draw_circles(int &xc, int &yc, int &r_start, int &r_end, int &step, QPainte
 
 void draw_ellipses(int &xc, int &yc, int &a_start, int &b_start, int &step, int &n, QPainter &painter, void (*draw_ellipse)(int &, int&, int &, int &, QPainter &))
 {
+
     for (int i = 0, a = a_start, b = b_start; i < n; i++, a += step, b += step)
     {
         draw_ellipse(xc, yc, a, b, painter);
