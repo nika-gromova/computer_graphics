@@ -284,19 +284,19 @@ double time_circle(void (*draw_circle)(int &, int&, int &, QPainter &, bool), in
     int xc = 0;
     int yc = 0;
     /*t1 = clock();
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10; i++)
         draw_circle(xc, yc, r, pen, true);
     t1 = clock() - t1;
     tmp = ((double)t1) / CLOCKS_PER_SEC;
     printf("%lf\n", tmp);
-    return tmp;*/
+    return tmp / 10;*/
 
     t1 = tick();
     for (int i = 0; i < 10; i++)
         draw_circle(xc, yc, r, pen, false);
     t1 = tick() - t1;
-    tmp = ((double)t1) / 3.5e9;
-    printf("%lf\n", tmp);
+    tmp = ((double)t1) / 2.4e9;
+    //printf("%lf\n", tmp);
     return tmp;
 }
 
@@ -335,7 +335,7 @@ void MainWindow::on_compare_time_circle_Button_clicked()
     ui->plot_widget->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignTop);
     ui->plot_widget->legend->setVisible(true);
     // границы по x и по y
-    ui->plot_widget->yAxis->setRange(0,  0.0001);
+    ui->plot_widget->yAxis->setRange(0,  0.0002);
     ui->plot_widget->xAxis->scaleRange(0, 610);
 
     ui->plot_widget->xAxis->setLabel("Радиус");
@@ -348,6 +348,29 @@ void MainWindow::on_compare_time_circle_Button_clicked()
 
     ui->plot_widget->replot();
     ui->plot_widget->setVisible(true);
+}
+
+double time_ellipse(void (*draw_ellipse)(int &, int&, int &, int &, QPainter &, bool), int &a, int &b, QPainter &pen)
+{
+    unsigned long long t1;
+    //clock_t t1;
+    double tmp;
+    int xc = 0;
+    int yc = 0;
+    /*t1 = clock();
+    for (int i = 0; i < 100; i++)
+        draw_circle(xc, yc, r, pen, true);
+    t1 = clock() - t1;
+    tmp = ((double)t1) / CLOCKS_PER_SEC;
+    printf("%lf\n", tmp);
+    return tmp;*/
+
+    t1 = tick();
+    for (int i = 0; i < 10; i++)
+        draw_ellipse(xc, yc, a, b, pen, false);
+    t1 = tick() - t1;
+    tmp = ((double)t1) / 2.4e9;
+    return tmp;
 }
 
 void MainWindow::on_compare_time_ellipse_Button_clicked()

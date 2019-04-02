@@ -593,7 +593,7 @@
          <item>
           <widget class="QLabel" name="label_29">
            <property name="text">
-            <string>шаг изменения (сразу для a и b):</string>
+            <string>шаг изменения:</string>
            </property>
           </widget>
          </item>
