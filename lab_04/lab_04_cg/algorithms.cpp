@@ -1,6 +1,6 @@
 #include "algorithms.h"
 #include <ctime>
-void canon_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
+void canon_circle(int &xc, int &yc, int &r, QPainter &painter)
 {
     double x, y;
     int x_rounded, y_rounded;
@@ -9,29 +9,23 @@ void canon_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
     {
         y = sqrt(r2 - x * x);
         y_rounded = (round(y));
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y_rounded);
-            painter.drawPoint(xc - x, yc + y_rounded);
-            painter.drawPoint(xc + x, yc - y_rounded);
-            painter.drawPoint(xc - x, yc - y_rounded);
-        }
+        painter.drawPoint(xc + x, yc + y_rounded);
+        painter.drawPoint(xc - x, yc + y_rounded);
+        painter.drawPoint(xc + x, yc - y_rounded);
+        painter.drawPoint(xc - x, yc - y_rounded);
     }
     for (int y = 0; y <= r; y++)
     {
         x = sqrt(r2 - y * y);
         x_rounded = (round(x));
-        if (act)
-        {
-            painter.drawPoint(xc + x_rounded, yc + y);
-            painter.drawPoint(xc - x_rounded, yc + y);
-            painter.drawPoint(xc + x_rounded, yc - y);
-            painter.drawPoint(xc - x_rounded, yc - y);
-        }
+        painter.drawPoint(xc + x_rounded, yc + y);
+        painter.drawPoint(xc - x_rounded, yc + y);
+        painter.drawPoint(xc + x_rounded, yc - y);
+        painter.drawPoint(xc - x_rounded, yc - y);
     }
 }
 
-void param_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
+void param_circle(int &xc, int &yc, int &r, QPainter &painter)
 {
     /*
     int len = (int)(round(M_PI * r / 2));
@@ -57,19 +51,16 @@ void param_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
     {
         x = (round(r * cos(tmp)));
         y = (round(r * sin(tmp)));
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
         tmp += d;
     }
 }
 
 
-void bre_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
+void bre_circle(int &xc, int &yc, int &r, QPainter &painter)
 {
 
     int x = 0, y = r;
@@ -78,14 +69,10 @@ void bre_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
     int y_end = 0;
     while (y >= y_end)
     {
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
-
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
         if (d < 0)
         {
            d1 = 2 * (d + y) - 1;
@@ -119,7 +106,7 @@ void bre_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
     }
 }
 
-void midpoint_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
+void midpoint_circle(int &xc, int &yc, int &r, QPainter &painter)
 {
     int x = 0;
     int y = r;
@@ -132,13 +119,10 @@ void midpoint_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
 
     for (; x <= x_bound; x++)
     {
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
 
         if (f >= 0)
         {
@@ -155,14 +139,10 @@ void midpoint_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
     f += -x - y;
     for (; y >= 0; y--)
     {
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
-
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
         if (f < 0)
         {
             x += 1;
@@ -174,14 +154,13 @@ void midpoint_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
     }
 }
 
-void lib_circle(int &xc, int &yc, int &r, QPainter &painter, bool act)
+void lib_circle(int &xc, int &yc, int &r, QPainter &painter)
 {
     QPoint center = QPoint(xc, yc);
-    if (act)
-        painter.drawEllipse(center, r, r);
+    painter.drawEllipse(center, r, r);
 }
 
-void canon_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act)
+void canon_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter)
 {
     double x, y;
     int x_rounded, y_rounded;
@@ -193,13 +172,10 @@ void canon_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act
         {
             y = b * sqrt(1.0 - x * x / a2);
             y_rounded = (int)(round(y));
-            if (act)
-            {
-                painter.drawPoint(xc + x, yc + y_rounded);
-                painter.drawPoint(xc - x, yc + y_rounded);
-                painter.drawPoint(xc + x, yc - y_rounded);
-                painter.drawPoint(xc - x, yc - y_rounded);
-            }
+            painter.drawPoint(xc + x, yc + y_rounded);
+            painter.drawPoint(xc - x, yc + y_rounded);
+            painter.drawPoint(xc + x, yc - y_rounded);
+            painter.drawPoint(xc - x, yc - y_rounded);
         }
     }
     if (b != 0)
@@ -208,18 +184,15 @@ void canon_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act
         {
             x = a * sqrt(1.0 - y * y / b2);
             x_rounded = (int)(round(x));
-            if (act)
-            {
-                painter.drawPoint(xc + x_rounded, yc + y);
-                painter.drawPoint(xc - x_rounded, yc + y);
-                painter.drawPoint(xc + x_rounded, yc - y);
-                painter.drawPoint(xc - x_rounded, yc - y);
-            }
+            painter.drawPoint(xc + x_rounded, yc + y);
+            painter.drawPoint(xc - x_rounded, yc + y);
+            painter.drawPoint(xc + x_rounded, yc - y);
+            painter.drawPoint(xc - x_rounded, yc - y);
         }
     }
 }
 
-void param_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act)
+void param_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter)
 {    
     int max_r = (a > b) ? a : b;
     double d = 1.0 / (double) max_r;
@@ -229,39 +202,31 @@ void param_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act
     {
         x = (round(a * cos(tmp)));
         y = (round(b * sin(tmp)));
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
         tmp += d;
     }
-
-    /*int max_r = (a > b) ? a : b;
+    /*
+    int max_r = (a > b) ? a : b;
     int len = (int)(round(M_PI * max_r / 2));
     int x, y;
     for (int i = 0; i <= len; i++)
     {
         x = (int)(round(a * cos((double)i / max_r)));
         y = (int)(round(b * sin((double)i / max_r)));
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
     }*/
 }
 
-void bre_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act)
+void bre_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter)
 {
     int x = 0;
-    int y = b;
-    //int y = (b != 0) ? b : a;
-    printf("y = %d\n", y);
+    int y = b; // при b = 0 и a != 0 отрисовывает точку (а не прямую)
     int a2 = a * a;
     int b2 = b * b;
     int da2 = 2 * a2;
@@ -271,14 +236,10 @@ void bre_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act)
     int y_end = 0;
     while (y >= y_end)
     {
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
-
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
         if (d < 0)
         {
            d1 = 2 * d + da2 * y - a2;
@@ -312,7 +273,7 @@ void bre_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act)
     }
 }
 
-void midpoint_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act)
+void midpoint_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter)
 {
     int a2 = a * a;
     int b2 = b * b;
@@ -332,14 +293,10 @@ void midpoint_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool 
 
     for (; x <= x_bound; x++)
     {
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
-
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
         if (f >= 0)
         {
             y -= 1;
@@ -358,14 +315,10 @@ void midpoint_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool 
     f += 0.75 * (a2 - b2) - a2 * y - b2 * x;
     for (; y >= 0; y--)
     {
-        if (act)
-        {
-            painter.drawPoint(xc + x, yc + y);
-            painter.drawPoint(xc - x, yc + y);
-            painter.drawPoint(xc + x, yc - y);
-            painter.drawPoint(xc - x, yc - y);
-        }
-
+        painter.drawPoint(xc + x, yc + y);
+        painter.drawPoint(xc - x, yc + y);
+        painter.drawPoint(xc + x, yc - y);
+        painter.drawPoint(xc - x, yc - y);
         if (f < 0)
         {
             x += 1;
@@ -377,29 +330,28 @@ void midpoint_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool 
     }
 }
 
-void lib_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter, bool act)
+void lib_ellipse(int &xc, int &yc, int &a, int &b, QPainter &painter)
 {
     QPoint center = QPoint(xc, yc);
-    if (act)
-        painter.drawEllipse(center, a, b);
+    painter.drawEllipse(center, a, b);
 }
 
 
 
-void draw_circles(int &xc, int &yc, int &r_start, int &r_end, int &step, QPainter &painter, void (*draw_circle)(int &, int&, int &, QPainter &, bool))
+void draw_circles(int &xc, int &yc, int &r_start, int &r_end, int &step, QPainter &painter, void (*draw_circle)(int &, int&, int &, QPainter &))
 {
     for (int r = r_start; r <= r_end; r += step)
     {
-        draw_circle(xc, yc, r, painter, true);
+        draw_circle(xc, yc, r, painter);
     }
 }
 
-void draw_ellipses(int &xc, int &yc, int &a_start, int &b_start, int &step, int &n, QPainter &painter, void (*draw_ellipse)(int &, int&, int &, int &, QPainter &, bool))
+void draw_ellipses(int &xc, int &yc, int &a_start, int &b_start, int &step, int &n, QPainter &painter, void (*draw_ellipse)(int &, int&, int &, int &, QPainter &))
 {
     double coef = (double)b_start / a_start;
     for (int i = 0, a = a_start, b = b_start; i < n; i++)
     {
-        draw_ellipse(xc, yc, a, b, painter, true);
+        draw_ellipse(xc, yc, a, b, painter);
         a += step;
         b = coef * a;
     }

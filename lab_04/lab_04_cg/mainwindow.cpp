@@ -5,6 +5,8 @@
 #include <time.h>
 #include "algorithms.h"
 
+#define CPU_F 3.5e9
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -125,21 +127,21 @@ void MainWindow::on_draw_circle_button_clicked()
             {
                 check_color();
                 if (ui->canon_radioButton->isChecked())
-                    canon_circle(xc, yc, r, *painter, true);
+                    canon_circle(xc, yc, r, *painter);
                 if (ui->param_radioButton->isChecked())
                 {
-                    param_circle(xc, yc, r, *painter, true);
+                    param_circle(xc, yc, r, *painter);
                 }
                 if (ui->bre_radioButton->isChecked())
                 {
-                    bre_circle(xc, yc, r, *painter, true);
+                    bre_circle(xc, yc, r, *painter);
                 }
                 if (ui->midpoint_radioButton->isChecked())
                 {
-                    midpoint_circle(xc, yc, r, *painter, true);
+                    midpoint_circle(xc, yc, r, *painter);
                 }
                 if (ui->lib_radioButton->isChecked())
-                    lib_circle(xc, yc, r, *painter, true);
+                    lib_circle(xc, yc, r, *painter);
 
             }
             ui->draw_label->setPixmap(*my_scene);
@@ -172,21 +174,21 @@ void MainWindow::on_draw_ellipse_button_clicked()
             {
                 check_color();
                 if (ui->canon_radioButton->isChecked())
-                    canon_ellipse(xc, yc, a, b, *painter, true);
+                    canon_ellipse(xc, yc, a, b, *painter);
                 if (ui->param_radioButton->isChecked())
                 {
-                    param_ellipse(xc, yc, a, b, *painter, true);
+                    param_ellipse(xc, yc, a, b, *painter);
                 }
                 if (ui->bre_radioButton->isChecked())
                 {
-                    bre_ellipse(xc, yc, a, b, *painter, true);
+                    bre_ellipse(xc, yc, a, b, *painter);
                 }
                 if (ui->midpoint_radioButton->isChecked())
                 {
-                    midpoint_ellipse(xc, yc, a, b, *painter, true);
+                    midpoint_ellipse(xc, yc, a, b, *painter);
                 }
                 if (ui->lib_radioButton->isChecked())
-                    lib_ellipse(xc, yc, a, b, *painter, true);
+                    lib_ellipse(xc, yc, a, b, *painter);
 
             }
             ui->draw_label->setPixmap(*my_scene);
@@ -276,7 +278,7 @@ unsigned long long tick(void)
     return d;
 }
 
-double time_circle(void (*draw_circle)(int &, int&, int &, QPainter &, bool), int &r, QPainter &pen)
+double time_circle(void (*draw_circle)(int &, int&, int &, QPainter &), int &r, QPainter &pen)
 {
     unsigned long long t1;
     //clock_t t1;
@@ -293,10 +295,10 @@ double time_circle(void (*draw_circle)(int &, int&, int &, QPainter &, bool), in
 
     t1 = tick();
     for (int i = 0; i < 10; i++)
-        draw_circle(xc, yc, r, pen, false);
+        draw_circle(xc, yc, r, pen);
     t1 = tick() - t1;
-    tmp = ((double)t1) / 2.4e9;
-    //printf("%lf\n", tmp);
+    tmp = ((double)t1) / CPU_F;
+    printf("%lf\n", tmp);
     return tmp;
 }
 
@@ -335,7 +337,7 @@ void MainWindow::on_compare_time_circle_Button_clicked()
     ui->plot_widget->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignTop);
     ui->plot_widget->legend->setVisible(true);
     // границы по x и по y
-    ui->plot_widget->yAxis->setRange(0,  0.0002);
+    ui->plot_widget->yAxis->setRange(0,  seconds_circle[1][seconds_circle[1].size() - 1]);
     ui->plot_widget->xAxis->scaleRange(0, 610);
 
     ui->plot_widget->xAxis->setLabel("Радиус");
@@ -350,30 +352,23 @@ void MainWindow::on_compare_time_circle_Button_clicked()
     ui->plot_widget->setVisible(true);
 }
 
-double time_ellipse(void (*draw_ellipse)(int &, int&, int &, int &, QPainter &, bool), int &a, int &b, QPainter &pen)
+double time_ellipse(void (*draw_ellipse)(int &, int&, int &, int &, QPainter &), int &a, int &b, QPainter &pen)
 {
     unsigned long long t1;
-    //clock_t t1;
     double tmp;
     int xc = 0;
     int yc = 0;
-    /*t1 = clock();
-    for (int i = 0; i < 100; i++)
-        draw_circle(xc, yc, r, pen, true);
-    t1 = clock() - t1;
-    tmp = ((double)t1) / CLOCKS_PER_SEC;
-    printf("%lf\n", tmp);
-    return tmp;*/
 
     t1 = tick();
     for (int i = 0; i < 10; i++)
-        draw_ellipse(xc, yc, a, b, pen, false);
+        draw_ellipse(xc, yc, a, b, pen);
     t1 = tick() - t1;
-    tmp = ((double)t1) / 2.4e9;
+    tmp = ((double)t1) / CPU_F;
     return tmp;
 }
 
 void MainWindow::on_compare_time_ellipse_Button_clicked()
 {
+    // доделать для эллипсов график
     return;
 }
