@@ -66,7 +66,7 @@ void MainWindow::on_button_color_bound_clicked()
     {
         change_widget_color(ui->w_color_bound, color);
         myscene->set_color_bound(color);
-        myscene->repaint();
+        //myscene->repaint();
     }
 }
 
@@ -77,7 +77,7 @@ void MainWindow::on_button_color_fill_clicked()
     {
         change_widget_color(ui->w_color_fill, color);
         myscene->set_color_fill(color);
-        myscene->repaint();
+        //myscene->repaint();
     }
 }
 
@@ -88,7 +88,7 @@ void MainWindow::on_button_color_bg_clicked()
     {
         change_widget_color(ui->w_color_bg, color);
         myscene->set_color_bg(color);
-        myscene->repaint();
+        //myscene->repaint();
     }
 }
 
@@ -99,29 +99,32 @@ void MainWindow::on_button_color_sep_clicked()
     {
         change_widget_color(ui->w_color_sep, color);
         myscene->set_color_sep(color);
-        myscene->repaint();
+        //myscene->repaint();
     }
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     QPoint p = myscene->mapFromGlobal(QCursor::pos());
-    int dx = abs(p.x() - previous_point.x());
-    int dy = abs(p.y() - previous_point.y());
-    if (event->button() == Qt::LeftButton)
+    if (p.x() < 640 && p.x() > 0 && p.y() > 0 && p.x() < 600)
     {
-        if (shift_pressed)
+        int dx = abs(p.x() - previous_point.x());
+        int dy = abs(p.y() - previous_point.y());
+        if (event->button() == Qt::LeftButton)
         {
-            if (dy > dx)
-                p.setX(previous_point.x());
-            else
-                p.setY(previous_point.y());
+            if (shift_pressed)
+            {
+                if (dy > dx)
+                    p.setX(previous_point.x());
+                else
+                    p.setY(previous_point.y());
+            }
+            add_point(p);
         }
-        add_point(p);
-    }
-    else
-    {
-        close_poly();
+        else
+        {
+            close_poly();
+        }
     }
 }
 
@@ -152,7 +155,8 @@ void MainWindow::on_button_fill_slow_clicked()
 void MainWindow::on_button_clear_clicked()
 {
     myscene->clear();
-    myscene->repaint();
+    new_bound = true;
+    //myscene->repaint();
 }
 
 

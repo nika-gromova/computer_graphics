@@ -31,37 +31,37 @@ public:
     QWidget *centralWidget;
     QWidget *draw_widget;
     QGroupBox *groupBox;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_2;
     QPushButton *button_color_bound;
     QPushButton *button_color_bg;
     QPushButton *button_color_fill;
     QPushButton *button_color_sep;
-    QWidget *widget1;
+    QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout_4;
     QLabel *label_2;
     QLabel *label_4;
     QLabel *label_3;
     QLabel *label_6;
-    QWidget *widget2;
+    QWidget *layoutWidget2;
     QVBoxLayout *verticalLayout_5;
     QWidget *w_color_bound;
     QWidget *w_color_bg;
     QWidget *w_color_fill;
     QWidget *w_color_sep;
     QGroupBox *groupBox_2;
-    QWidget *widget3;
+    QWidget *layoutWidget3;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QLineEdit *x_edit;
     QLabel *label_8;
     QLineEdit *y_edit;
-    QWidget *widget4;
+    QWidget *layoutWidget4;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *button_inp_point;
     QPushButton *button_close_p;
     QGroupBox *groupBox_3;
-    QWidget *widget5;
+    QWidget *layoutWidget5;
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout_3;
     QPushButton *button_fill;
@@ -70,7 +70,7 @@ public:
     QPushButton *button_fill_slow;
     QPushButton *button_clear_fill;
     QGroupBox *groupBox_4;
-    QWidget *widget6;
+    QWidget *layoutWidget6;
     QVBoxLayout *verticalLayout;
     QLabel *label_5;
     QLabel *label_7;
@@ -92,15 +92,15 @@ public:
         QFont font;
         font.setPointSize(14);
         groupBox->setFont(font);
-        widget = new QWidget(groupBox);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(200, 30, 77, 151));
-        verticalLayout_2 = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(groupBox);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(200, 30, 77, 151));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        button_color_bound = new QPushButton(widget);
+        button_color_bound = new QPushButton(layoutWidget);
         button_color_bound->setObjectName(QStringLiteral("button_color_bound"));
         QFont font1;
         font1.setFamily(QStringLiteral("Alef"));
@@ -111,7 +111,7 @@ public:
 
         verticalLayout_2->addWidget(button_color_bound);
 
-        button_color_bg = new QPushButton(widget);
+        button_color_bg = new QPushButton(layoutWidget);
         button_color_bg->setObjectName(QStringLiteral("button_color_bg"));
         button_color_bg->setFont(font1);
         button_color_bg->setAutoFillBackground(true);
@@ -119,7 +119,7 @@ public:
 
         verticalLayout_2->addWidget(button_color_bg);
 
-        button_color_fill = new QPushButton(widget);
+        button_color_fill = new QPushButton(layoutWidget);
         button_color_fill->setObjectName(QStringLiteral("button_color_fill"));
         button_color_fill->setFont(font1);
         button_color_fill->setAutoFillBackground(true);
@@ -127,7 +127,7 @@ public:
 
         verticalLayout_2->addWidget(button_color_fill);
 
-        button_color_sep = new QPushButton(widget);
+        button_color_sep = new QPushButton(layoutWidget);
         button_color_sep->setObjectName(QStringLiteral("button_color_sep"));
         button_color_sep->setFont(font1);
         button_color_sep->setAutoFillBackground(true);
@@ -135,15 +135,15 @@ public:
 
         verticalLayout_2->addWidget(button_color_sep);
 
-        widget1 = new QWidget(groupBox);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(10, 30, 131, 151));
-        verticalLayout_4 = new QVBoxLayout(widget1);
+        layoutWidget1 = new QWidget(groupBox);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(10, 30, 131, 151));
+        verticalLayout_4 = new QVBoxLayout(layoutWidget1);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         verticalLayout_4->setContentsMargins(0, 0, 0, 0);
-        label_2 = new QLabel(widget1);
+        label_2 = new QLabel(layoutWidget1);
         label_2->setObjectName(QStringLiteral("label_2"));
         QFont font2;
         font2.setFamily(QStringLiteral("Alef"));
@@ -152,51 +152,51 @@ public:
 
         verticalLayout_4->addWidget(label_2);
 
-        label_4 = new QLabel(widget1);
+        label_4 = new QLabel(layoutWidget1);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setFont(font2);
 
         verticalLayout_4->addWidget(label_4);
 
-        label_3 = new QLabel(widget1);
+        label_3 = new QLabel(layoutWidget1);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setFont(font2);
 
         verticalLayout_4->addWidget(label_3);
 
-        label_6 = new QLabel(widget1);
+        label_6 = new QLabel(layoutWidget1);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setFont(font2);
 
         verticalLayout_4->addWidget(label_6);
 
-        widget2 = new QWidget(groupBox);
-        widget2->setObjectName(QStringLiteral("widget2"));
-        widget2->setGeometry(QRect(140, 30, 51, 151));
-        verticalLayout_5 = new QVBoxLayout(widget2);
+        layoutWidget2 = new QWidget(groupBox);
+        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(140, 30, 51, 151));
+        verticalLayout_5 = new QVBoxLayout(layoutWidget2);
         verticalLayout_5->setSpacing(6);
         verticalLayout_5->setContentsMargins(11, 11, 11, 11);
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         verticalLayout_5->setContentsMargins(0, 0, 0, 0);
-        w_color_bound = new QWidget(widget2);
+        w_color_bound = new QWidget(layoutWidget2);
         w_color_bound->setObjectName(QStringLiteral("w_color_bound"));
         w_color_bound->setAutoFillBackground(true);
 
         verticalLayout_5->addWidget(w_color_bound);
 
-        w_color_bg = new QWidget(widget2);
+        w_color_bg = new QWidget(layoutWidget2);
         w_color_bg->setObjectName(QStringLiteral("w_color_bg"));
         w_color_bg->setAutoFillBackground(true);
 
         verticalLayout_5->addWidget(w_color_bg);
 
-        w_color_fill = new QWidget(widget2);
+        w_color_fill = new QWidget(layoutWidget2);
         w_color_fill->setObjectName(QStringLiteral("w_color_fill"));
         w_color_fill->setAutoFillBackground(true);
 
         verticalLayout_5->addWidget(w_color_fill);
 
-        w_color_sep = new QWidget(widget2);
+        w_color_sep = new QWidget(layoutWidget2);
         w_color_sep->setObjectName(QStringLiteral("w_color_sep"));
         w_color_sep->setAutoFillBackground(true);
 
@@ -206,15 +206,15 @@ public:
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
         groupBox_2->setGeometry(QRect(660, 210, 281, 101));
         groupBox_2->setFont(font);
-        widget3 = new QWidget(groupBox_2);
-        widget3->setObjectName(QStringLiteral("widget3"));
-        widget3->setGeometry(QRect(10, 30, 261, 31));
-        horizontalLayout = new QHBoxLayout(widget3);
+        layoutWidget3 = new QWidget(groupBox_2);
+        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(10, 30, 261, 31));
+        horizontalLayout = new QHBoxLayout(layoutWidget3);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        label = new QLabel(widget3);
+        label = new QLabel(layoutWidget3);
         label->setObjectName(QStringLiteral("label"));
         QFont font3;
         font3.setPointSize(12);
@@ -222,7 +222,7 @@ public:
 
         horizontalLayout->addWidget(label);
 
-        x_edit = new QLineEdit(widget3);
+        x_edit = new QLineEdit(layoutWidget3);
         x_edit->setObjectName(QStringLiteral("x_edit"));
         QFont font4;
         font4.setPointSize(10);
@@ -230,33 +230,33 @@ public:
 
         horizontalLayout->addWidget(x_edit);
 
-        label_8 = new QLabel(widget3);
+        label_8 = new QLabel(layoutWidget3);
         label_8->setObjectName(QStringLiteral("label_8"));
         label_8->setFont(font3);
 
         horizontalLayout->addWidget(label_8);
 
-        y_edit = new QLineEdit(widget3);
+        y_edit = new QLineEdit(layoutWidget3);
         y_edit->setObjectName(QStringLiteral("y_edit"));
         y_edit->setFont(font4);
 
         horizontalLayout->addWidget(y_edit);
 
-        widget4 = new QWidget(groupBox_2);
-        widget4->setObjectName(QStringLiteral("widget4"));
-        widget4->setGeometry(QRect(60, 60, 161, 31));
-        horizontalLayout_3 = new QHBoxLayout(widget4);
+        layoutWidget4 = new QWidget(groupBox_2);
+        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(60, 60, 161, 31));
+        horizontalLayout_3 = new QHBoxLayout(layoutWidget4);
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
-        button_inp_point = new QPushButton(widget4);
+        button_inp_point = new QPushButton(layoutWidget4);
         button_inp_point->setObjectName(QStringLiteral("button_inp_point"));
         button_inp_point->setFont(font4);
 
         horizontalLayout_3->addWidget(button_inp_point);
 
-        button_close_p = new QPushButton(widget4);
+        button_close_p = new QPushButton(layoutWidget4);
         button_close_p->setObjectName(QStringLiteral("button_close_p"));
         button_close_p->setFont(font4);
 
@@ -266,10 +266,10 @@ public:
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
         groupBox_3->setGeometry(QRect(660, 310, 281, 131));
         groupBox_3->setFont(font);
-        widget5 = new QWidget(groupBox_3);
-        widget5->setObjectName(QStringLiteral("widget5"));
-        widget5->setGeometry(QRect(10, 30, 261, 91));
-        horizontalLayout_2 = new QHBoxLayout(widget5);
+        layoutWidget5 = new QWidget(groupBox_3);
+        layoutWidget5->setObjectName(QStringLiteral("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(10, 30, 261, 91));
+        horizontalLayout_2 = new QHBoxLayout(layoutWidget5);
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -277,13 +277,13 @@ public:
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        button_fill = new QPushButton(widget5);
+        button_fill = new QPushButton(layoutWidget5);
         button_fill->setObjectName(QStringLiteral("button_fill"));
         button_fill->setFont(font4);
 
         verticalLayout_3->addWidget(button_fill);
 
-        button_clear = new QPushButton(widget5);
+        button_clear = new QPushButton(layoutWidget5);
         button_clear->setObjectName(QStringLiteral("button_clear"));
         button_clear->setFont(font4);
 
@@ -295,13 +295,13 @@ public:
         verticalLayout_6 = new QVBoxLayout();
         verticalLayout_6->setSpacing(6);
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
-        button_fill_slow = new QPushButton(widget5);
+        button_fill_slow = new QPushButton(layoutWidget5);
         button_fill_slow->setObjectName(QStringLiteral("button_fill_slow"));
         button_fill_slow->setFont(font4);
 
         verticalLayout_6->addWidget(button_fill_slow);
 
-        button_clear_fill = new QPushButton(widget5);
+        button_clear_fill = new QPushButton(layoutWidget5);
         button_clear_fill->setObjectName(QStringLiteral("button_clear_fill"));
         button_clear_fill->setFont(font4);
 
@@ -314,15 +314,15 @@ public:
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
         groupBox_4->setGeometry(QRect(660, 450, 281, 151));
         groupBox_4->setFont(font4);
-        widget6 = new QWidget(groupBox_4);
-        widget6->setObjectName(QStringLiteral("widget6"));
-        widget6->setGeometry(QRect(10, 20, 261, 121));
-        verticalLayout = new QVBoxLayout(widget6);
+        layoutWidget6 = new QWidget(groupBox_4);
+        layoutWidget6->setObjectName(QStringLiteral("layoutWidget6"));
+        layoutWidget6->setGeometry(QRect(10, 20, 261, 121));
+        verticalLayout = new QVBoxLayout(layoutWidget6);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        label_5 = new QLabel(widget6);
+        label_5 = new QLabel(layoutWidget6);
         label_5->setObjectName(QStringLiteral("label_5"));
         QFont font5;
         font5.setPointSize(11);
@@ -331,18 +331,20 @@ public:
         label_5->setScaledContents(false);
         label_5->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         label_5->setWordWrap(true);
-        label_5->setMargin(-1);
+        label_5->setMargin(1);
+        label_5->setIndent(1);
 
         verticalLayout->addWidget(label_5);
 
-        label_7 = new QLabel(widget6);
+        label_7 = new QLabel(layoutWidget6);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setFont(font5);
         label_7->setTextFormat(Qt::AutoText);
         label_7->setScaledContents(false);
         label_7->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         label_7->setWordWrap(true);
-        label_7->setMargin(-1);
+        label_7->setMargin(1);
+        label_7->setIndent(1);
 
         verticalLayout->addWidget(label_7);
 

@@ -31,7 +31,7 @@ void swap_num(int &x, int &y)
 void my_paintwidget::draw_line_bre(QPoint &start, QPoint &end, QPainter &painter, QColor &color)
 {
     QPen pen(color);
-    //pen.setWidth(2);;
+    pen.setWidth(2);;
     painter.setPen(pen);
     int x_start = start.x(), y_start = start.y();
     int x_end = end.x(), y_end = end.y();
@@ -73,7 +73,7 @@ void my_paintwidget::paint_on_image()
     my_image.fill(color_bg);
     draw_point();
     draw_bound();
-    //this->repaint();
+    this->repaint();
 }
 
 void my_paintwidget::draw_edge(edge_type &e, QPainter &painter)
