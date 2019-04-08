@@ -66,6 +66,7 @@ void MainWindow::on_button_color_bound_clicked()
     {
         change_widget_color(ui->w_color_bound, color);
         myscene->set_color_bound(color);
+        myscene->repaint();
     }
 }
 
@@ -76,6 +77,7 @@ void MainWindow::on_button_color_fill_clicked()
     {
         change_widget_color(ui->w_color_fill, color);
         myscene->set_color_fill(color);
+        myscene->repaint();
     }
 }
 
@@ -86,6 +88,7 @@ void MainWindow::on_button_color_bg_clicked()
     {
         change_widget_color(ui->w_color_bg, color);
         myscene->set_color_bg(color);
+        myscene->repaint();
     }
 }
 
@@ -96,6 +99,7 @@ void MainWindow::on_button_color_sep_clicked()
     {
         change_widget_color(ui->w_color_sep, color);
         myscene->set_color_sep(color);
+        myscene->repaint();
     }
 }
 
@@ -148,6 +152,7 @@ void MainWindow::on_button_fill_slow_clicked()
 void MainWindow::on_button_clear_clicked()
 {
     myscene->clear();
+    myscene->repaint();
 }
 
 
@@ -168,4 +173,14 @@ void MainWindow::on_button_inp_point_clicked()
 void MainWindow::on_button_close_p_clicked()
 {
     close_poly();
+}
+
+void MainWindow::on_button_clear_fill_clicked()
+{
+    close_poly();
+    QColor tmp = myscene->get_color_fill();
+    QColor tmp_bg = myscene->get_color_bg();
+    myscene->set_color_fill(tmp_bg);
+    myscene->repaint();
+    myscene->set_color_fill(tmp);
 }

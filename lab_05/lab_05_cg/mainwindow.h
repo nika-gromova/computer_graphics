@@ -37,6 +37,8 @@ private slots:
 
     void on_button_close_p_clicked();
 
+    void on_button_clear_fill_clicked();
+
 private:
     Ui::MainWindow *ui;
     my_paintwidget *myscene;

@@ -4,9 +4,10 @@
 #include <QWidget>
 #include <QColor>
 #include <QPainter>
+#include <math.h>
 
 #define SEP_X 320
-#define DELAY_TIME 500
+#define DELAY_TIME 50
 
 struct edge_type
 {

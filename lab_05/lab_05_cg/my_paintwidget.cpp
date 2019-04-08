@@ -31,7 +31,7 @@ void swap_num(int &x, int &y)
 void my_paintwidget::draw_line_bre(QPoint &start, QPoint &end, QPainter &painter, QColor &color)
 {
     QPen pen(color);
-    pen.setWidth(2);;
+    //pen.setWidth(2);;
     painter.setPen(pen);
     int x_start = start.x(), y_start = start.y();
     int x_end = end.x(), y_end = end.y();
@@ -73,7 +73,7 @@ void my_paintwidget::paint_on_image()
     my_image.fill(color_bg);
     draw_point();
     draw_bound();
-    this->repaint();
+    //this->repaint();
 }
 
 void my_paintwidget::draw_edge(edge_type &e, QPainter &painter)
@@ -138,10 +138,15 @@ void my_paintwidget::color_pixel(int x, int y, QPainter &painter)
 {
     QColor color = my_image.pixelColor(x, y);
     if (color == color_fill)
+    {
         painter.setPen(color_bg);
-    else
+        painter.drawPoint(x, y);
+    }
+    else if (color == color_bg)
+    {
         painter.setPen(color_fill);
-    painter.drawPoint(x, y);
+        painter.drawPoint(x, y);
+    }
 }
 
 void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
@@ -154,12 +159,14 @@ void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
         int x_end = edges[i].end.x(), y_end = edges[i].end.y();
         bool xl = x_start < sep_pos_x;
         bool xr = x_end < sep_pos_x;
-
+        int dx = x_end - x_start;
+        int dy = y_end - y_start;
+        double k = ((double)dx) / dy;
         if (xl && xr)
         {
             for (int y = y_start; y < y_end; y++)
             {
-                //tmp_start = find_x(i, y);
+                tmp_start = round(k * (y - y_start) + x_start);
                 for (int x = tmp_start; x < sep_pos_x; x++)
                 {
                     color_pixel(x, y, painter);
@@ -175,7 +182,7 @@ void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
         {
             for (int y = y_start; y < y_end; y++)
             {
-                //tmp_start = find_x(i, y);
+                tmp_start = round(k * (y - y_start) + x_start);
                 for (int x = tmp_start; x > sep_pos_x; x--)
                 {
                     color_pixel(x, y, painter);
@@ -189,10 +196,10 @@ void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
         }
         else if (xl && !xr)
         {
-            //sep = find_y(i, sep_pos_x);
+            sep = round((1 / k) * (sep_pos_x - x_start) + y_start);
             for (int y = y_start; y < sep; y++)
             {
-                //tmp_start = find_x(i, y);
+                tmp_start = round(k * (y - y_start) + x_start);
                 for (int x = tmp_start; x < sep_pos_x; x++)
                     color_pixel(x, y, painter);
                 if (slow)
@@ -203,7 +210,7 @@ void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
             }
             for (int y = sep; y < y_end; y++)
             {
-                //tmp_start = find_x(i, y);
+                tmp_start = round(k * (y - y_start) + x_start);
                 for (int x = tmp_start; x > sep_pos_x; x--)
                     color_pixel(x, y, painter);
                 if (slow)
@@ -215,10 +222,10 @@ void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
         }
         else
         {
-            //sep = find_y(i, sep_pos_x);
+            sep = round((1 / k) * (sep_pos_x - x_start) + y_start);
             for (int y = y_start; y < sep; y++)
             {
-                //tmp_start = find_x(i, y);
+                tmp_start = round(k * (y - y_start) + x_start);
                 for (int x = tmp_start; x > sep_pos_x; x--)
                     color_pixel(x, y, painter);
                 if (slow)
@@ -229,7 +236,7 @@ void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
             }
             for (int y = sep; y < y_end; y++)
             {
-                //tmp_start = find_x(i, y);
+                tmp_start = round(k * (y - y_start) + x_start);
                 for (int x = tmp_start; x < sep_pos_x; x++)
                     color_pixel(x, y, painter);
                 if (slow)
