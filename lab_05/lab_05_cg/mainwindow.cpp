@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QColorDialog>
 #include <QKeyEvent>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -147,4 +148,24 @@ void MainWindow::on_button_fill_slow_clicked()
 void MainWindow::on_button_clear_clicked()
 {
     myscene->clear();
+}
+
+
+void MainWindow::on_button_inp_point_clicked()
+{
+    bool ok_1 = true, ok_2 = true;
+    int x = ui->x_edit->text().toInt(&ok_1);
+    int y = ui->y_edit->text().toInt(&ok_2);
+    if (!ok_1 || !ok_2)
+        QMessageBox::warning(this, "Ошибка ввода", "Вводите, пожалуйста, только целые числа.");
+    else
+    {
+        QPoint tmp(x, y);
+        add_point(tmp);
+    }
+}
+
+void MainWindow::on_button_close_p_clicked()
+{
+    close_poly();
 }

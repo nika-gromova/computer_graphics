@@ -146,8 +146,8 @@ void my_paintwidget::color_pixel(int x, int y, QPainter &painter)
 
 void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
 {
-    int tmp_start;
-    int sep;
+    int tmp_start = 0;
+    int sep = 0;
     for (int i = 0; i < edges.size(); i++)
     {
         int x_start = edges[i].start.x(), y_start = edges[i].start.y();
@@ -189,7 +189,7 @@ void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
         }
         else if (xl && !xr)
         {
-            sep = find_y(i, sep_pos_x);
+            //sep = find_y(i, sep_pos_x);
             for (int y = y_start; y < sep; y++)
             {
                 //tmp_start = find_x(i, y);
@@ -215,7 +215,7 @@ void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
         }
         else
         {
-            sep = find_y(i, sep_pos_x);
+            //sep = find_y(i, sep_pos_x);
             for (int y = y_start; y < sep; y++)
             {
                 //tmp_start = find_x(i, y);
