@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.8.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -357,29 +357,29 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        groupBox->setTitle(QApplication::translate("MainWindow", "\320\222\321\213\320\261\320\276\321\200 \321\206\320\262\320\265\321\202\320\260", nullptr));
-        button_color_bound->setText(QApplication::translate("MainWindow", "\320\270\320\267\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
-        button_color_bg->setText(QApplication::translate("MainWindow", "\320\270\320\267\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
-        button_color_fill->setText(QApplication::translate("MainWindow", "\320\270\320\267\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
-        button_color_sep->setText(QApplication::translate("MainWindow", "\320\270\320\267\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
-        label_2->setText(QApplication::translate("MainWindow", "\321\206\320\262\320\265\321\202 \320\263\321\200\320\260\320\275\320\270\321\206\321\213:", nullptr));
-        label_4->setText(QApplication::translate("MainWindow", "\321\206\320\262\320\265\321\202 \321\204\320\276\320\275\320\260:", nullptr));
-        label_3->setText(QApplication::translate("MainWindow", "\321\206\320\262\320\265\321\202 \320\267\320\260\320\277\320\276\320\273\320\275\320\265\320\275\320\270\321\217:", nullptr));
-        label_6->setText(QApplication::translate("MainWindow", "\321\206\320\262\320\265\321\202 \320\277\320\265\321\200\320\265\320\263\320\276\321\200\320\276\320\264\320\272\320\270:", nullptr));
-        groupBox_2->setTitle(QApplication::translate("MainWindow", "\320\222\320\262\320\276\320\264 \320\262\320\265\321\200\321\210\320\270\320\275\321\213", nullptr));
-        label->setText(QApplication::translate("MainWindow", "x:", nullptr));
-        label_8->setText(QApplication::translate("MainWindow", "y:", nullptr));
-        button_inp_point->setText(QApplication::translate("MainWindow", "\320\262\320\262\320\265\321\201\321\202\320\270", nullptr));
-        button_close_p->setText(QApplication::translate("MainWindow", "\320\267\320\260\320\274\320\272\320\275\321\203\321\202\321\214", nullptr));
-        groupBox_3->setTitle(QApplication::translate("MainWindow", "\320\227\320\260\320\277\320\276\320\273\320\275\320\265\320\275\320\270\320\265", nullptr));
-        button_fill->setText(QApplication::translate("MainWindow", "\320\267\320\260\320\272\321\200\320\260\321\201\320\270\321\202\321\214", nullptr));
-        button_clear->setText(QApplication::translate("MainWindow", "\320\276\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \320\262\321\201\320\265", nullptr));
-        button_fill_slow->setText(QApplication::translate("MainWindow", "\320\267\320\260\320\272\321\200\320\260\321\201\320\270\321\202\321\214 (\320\274\320\265\320\264\320\273\320\265\320\275\320\275\320\276)", nullptr));
-        button_clear_fill->setText(QApplication::translate("MainWindow", "\320\276\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \320\267\320\260\320\277\320\276\320\273\320\275\320\265\320\275\320\270\320\265", nullptr));
-        groupBox_4->setTitle(QApplication::translate("MainWindow", "\320\230\320\275\321\204\320\276\321\200\320\274\320\260\321\206\320\270\321\217", nullptr));
-        label_5->setText(QApplication::translate("MainWindow", "\320\225\321\201\320\273\320\270 \320\262\321\213 \321\205\320\276\321\202\320\270\321\202\320\265 \320\275\320\260\321\200\320\270\321\201\320\276\320\262\320\260\321\202\321\214 \320\277\321\200\321\217\320\274\321\203\321\216 \320\263\320\276\321\200\320\270\320\267\320\276\320\275\321\202\320\260\320\273\321\214\320\275\321\203\321\216 \320\270\320\273\320\270 \320\262\320\265\321\200\321\202\320\270\320\272\320\260\320\273\321\214\320\275\321\203\321\216 \320\273\320\270\320\275\320\270\321\216, \320\267\320\260\320\266\320\274\320\270\321\202\320\265 \320\272\320\273\320\260\320\262\320\270\321\210\321\203 shift", nullptr));
-        label_7->setText(QApplication::translate("MainWindow", "\320\225\321\201\320\273\320\270 \320\262\321\213 \321\205\320\276\321\202\320\270\321\202\320\265 \320\267\320\260\320\274\320\272\320\275\321\203\321\202\321\214 \320\263\321\200\320\260\320\275\320\270\321\206\321\203 \320\274\320\275\320\276\320\263\320\276\321\203\320\263\320\276\320\273\321\214\320\275\320\270\320\272\320\260, \320\275\320\260\320\266\320\274\320\270\321\202\320\265 \320\277\321\200\320\260\320\262\321\203\321\216 \320\272\320\275\320\276\320\277\320\272\321\203 \320\274\321\213\321\210\320\270", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
+        groupBox->setTitle(QApplication::translate("MainWindow", "\320\222\321\213\320\261\320\276\321\200 \321\206\320\262\320\265\321\202\320\260", Q_NULLPTR));
+        button_color_bound->setText(QApplication::translate("MainWindow", "\320\270\320\267\320\274\320\265\320\275\320\270\321\202\321\214", Q_NULLPTR));
+        button_color_bg->setText(QApplication::translate("MainWindow", "\320\270\320\267\320\274\320\265\320\275\320\270\321\202\321\214", Q_NULLPTR));
+        button_color_fill->setText(QApplication::translate("MainWindow", "\320\270\320\267\320\274\320\265\320\275\320\270\321\202\321\214", Q_NULLPTR));
+        button_color_sep->setText(QApplication::translate("MainWindow", "\320\270\320\267\320\274\320\265\320\275\320\270\321\202\321\214", Q_NULLPTR));
+        label_2->setText(QApplication::translate("MainWindow", "\321\206\320\262\320\265\321\202 \320\263\321\200\320\260\320\275\320\270\321\206\321\213:", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "\321\206\320\262\320\265\321\202 \321\204\320\276\320\275\320\260:", Q_NULLPTR));
+        label_3->setText(QApplication::translate("MainWindow", "\321\206\320\262\320\265\321\202 \320\267\320\260\320\277\320\276\320\273\320\275\320\265\320\275\320\270\321\217:", Q_NULLPTR));
+        label_6->setText(QApplication::translate("MainWindow", "\321\206\320\262\320\265\321\202 \320\277\320\265\321\200\320\265\320\263\320\276\321\200\320\276\320\264\320\272\320\270:", Q_NULLPTR));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "\320\222\320\262\320\276\320\264 \320\262\320\265\321\200\321\210\320\270\320\275\321\213", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "x:", Q_NULLPTR));
+        label_8->setText(QApplication::translate("MainWindow", "y:", Q_NULLPTR));
+        button_inp_point->setText(QApplication::translate("MainWindow", "\320\262\320\262\320\265\321\201\321\202\320\270", Q_NULLPTR));
+        button_close_p->setText(QApplication::translate("MainWindow", "\320\267\320\260\320\274\320\272\320\275\321\203\321\202\321\214", Q_NULLPTR));
+        groupBox_3->setTitle(QApplication::translate("MainWindow", "\320\227\320\260\320\277\320\276\320\273\320\275\320\265\320\275\320\270\320\265", Q_NULLPTR));
+        button_fill->setText(QApplication::translate("MainWindow", "\320\267\320\260\320\272\321\200\320\260\321\201\320\270\321\202\321\214", Q_NULLPTR));
+        button_clear->setText(QApplication::translate("MainWindow", "\320\276\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \320\262\321\201\320\265", Q_NULLPTR));
+        button_fill_slow->setText(QApplication::translate("MainWindow", "\320\267\320\260\320\272\321\200\320\260\321\201\320\270\321\202\321\214 (\320\274\320\265\320\264\320\273\320\265\320\275\320\275\320\276)", Q_NULLPTR));
+        button_clear_fill->setText(QApplication::translate("MainWindow", "\320\276\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \320\267\320\260\320\277\320\276\320\273\320\275\320\265\320\275\320\270\320\265", Q_NULLPTR));
+        groupBox_4->setTitle(QApplication::translate("MainWindow", "\320\230\320\275\321\204\320\276\321\200\320\274\320\260\321\206\320\270\321\217", Q_NULLPTR));
+        label_5->setText(QApplication::translate("MainWindow", "\320\225\321\201\320\273\320\270 \320\262\321\213 \321\205\320\276\321\202\320\270\321\202\320\265 \320\275\320\260\321\200\320\270\321\201\320\276\320\262\320\260\321\202\321\214 \320\277\321\200\321\217\320\274\321\203\321\216 \320\263\320\276\321\200\320\270\320\267\320\276\320\275\321\202\320\260\320\273\321\214\320\275\321\203\321\216 \320\270\320\273\320\270 \320\262\320\265\321\200\321\202\320\270\320\272\320\260\320\273\321\214\320\275\321\203\321\216 \320\273\320\270\320\275\320\270\321\216, \320\267\320\260\320\266\320\274\320\270\321\202\320\265 \320\272\320\273\320\260\320\262\320\270\321\210\321\203 shift", Q_NULLPTR));
+        label_7->setText(QApplication::translate("MainWindow", "\320\225\321\201\320\273\320\270 \320\262\321\213 \321\205\320\276\321\202\320\270\321\202\320\265 \320\267\320\260\320\274\320\272\320\275\321\203\321\202\321\214 \320\263\321\200\320\260\320\275\320\270\321\206\321\203 \320\274\320\275\320\276\320\263\320\276\321\203\320\263\320\276\320\273\321\214\320\275\320\270\320\272\320\260, \320\275\320\260\320\266\320\274\320\270\321\202\320\265 \320\277\321\200\320\260\320\262\321\203\321\216 \320\272\320\275\320\276\320\277\320\272\321\203 \320\274\321\213\321\210\320\270", Q_NULLPTR));
     } // retranslateUi
 
 };
