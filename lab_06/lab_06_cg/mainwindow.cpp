@@ -1,0 +1,236 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+#include <QColor>
+#include <QColorDialog>
+#include <QKeyEvent>
+#include <QMessageBox>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    change_widget_color(ui->w_color_bg, QColor(Qt::white));
+    change_widget_color(ui->w_color_bound, QColor(Qt::black));
+    change_widget_color(ui->w_color_fill, QColor(Qt::green));
+
+    ui->radioButton_point->setChecked(true);
+    ui->edit_circle_a->setEnabled(false);
+    ui->edit_circle_b->setEnabled(false);
+
+    myscene = new my_paintwidget(ui->draw_widget);
+    myscene->setMinimumSize(640, 600);
+    new_bound = true;
+    shift_pressed = false;
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+void MainWindow::change_widget_color(QWidget *wid, QColor color)
+{
+    QPalette pal = wid->palette();
+    pal.setColor(QPalette::Window, color);
+    wid->setPalette(pal);
+}
+
+void MainWindow::add_point(QPoint &p)
+{
+    if (new_bound)
+    {
+        bound_start_point = p;
+        new_bound = false;
+        myscene->add_new_point(p);
+    }
+    else
+    {
+        edge_type tmp = {previous_point, p};
+        myscene->add_new_edge(tmp);
+    }
+    previous_point = p;
+    myscene->repaint();
+}
+
+void MainWindow::close_poly()
+{
+    if (new_bound)
+        return;
+    edge_type tmp = {previous_point, bound_start_point};
+    myscene->add_new_edge(tmp);
+    new_bound = true;
+    myscene->repaint();
+}
+
+void MainWindow::add_ellipse(QPoint &p)
+{
+    bool ok_1 = true, ok_2 = true;
+    int a = ui->edit_circle_a->text().toInt(&ok_1);
+    int b = ui->edit_circle_b->text().toInt(&ok_2);
+    if (!ok_1 || !ok_2)
+        QMessageBox::warning(this, "Ошибка ввода", "Вводите, пожалуйста, только целые числа.");
+    else
+    {
+        ellipse_type el {p, a, b};
+        myscene->add_new_ellipse(el);
+        myscene->repaint();
+    }
+}
+
+void MainWindow::on_button_color_bound_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::black, this, "Веберете цвет");
+    if (color.isValid())
+    {
+        change_widget_color(ui->w_color_bound, color);
+        myscene->set_color_bound(color);
+        //myscene->repaint();
+    }
+}
+
+void MainWindow::on_button_color_fill_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::green, this, "Веберете цвет");
+    if (color.isValid())
+    {
+        change_widget_color(ui->w_color_fill, color);
+        myscene->set_color_fill(color);
+        //myscene->repaint();
+    }
+}
+
+void MainWindow::on_button_color_bg_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::white, this, "Веберете цвет");
+    if (color.isValid())
+    {
+        change_widget_color(ui->w_color_bg, color);
+        myscene->set_color_bg(color);
+        //myscene->repaint();
+    }
+}
+
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    QPoint p = myscene->mapFromGlobal(QCursor::pos());
+    if (p.x() < 640 && p.x() > 0 && p.y() > 0 && p.x() < 600)
+    {
+        int dx = abs(p.x() - previous_point.x());
+        int dy = abs(p.y() - previous_point.y());
+        if (event->button() == Qt::LeftButton)
+        {
+            if (shift_pressed)
+            {
+                if (dy > dx)
+                    p.setX(previous_point.x());
+                else
+                    p.setY(previous_point.y());
+            }
+            if (ui->radioButton_point->isChecked())
+                add_point(p);
+            if (ui->radioButton_pixel->isChecked())
+            {
+                myscene->add_first_pixel(p);
+                myscene->repaint();
+            }
+            if (ui->radioButton_ellipse->isChecked())
+                add_ellipse(p);
+        }
+        else
+        {
+            close_poly();
+        }
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Shift)
+        shift_pressed = true;
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Shift)
+        shift_pressed = false;
+}
+
+void MainWindow::on_button_fill_clicked()
+{
+    close_poly();
+    myscene->fill_polygon(false);
+}
+
+void MainWindow::on_button_fill_slow_clicked()
+{
+    close_poly();
+    myscene->fill_polygon(true);
+}
+
+void MainWindow::on_button_clear_clicked()
+{
+    myscene->clear();
+    new_bound = true;
+    //myscene->repaint();
+}
+
+
+void MainWindow::on_button_inp_point_clicked()
+{
+    bool ok_1 = true, ok_2 = true;
+    int x = ui->x_edit->text().toInt(&ok_1);
+    int y = ui->y_edit->text().toInt(&ok_2);
+    if (!ok_1 || !ok_2)
+        QMessageBox::warning(this, "Ошибка ввода", "Вводите, пожалуйста, только целые числа.");
+    else
+    {
+        QPoint tmp(x, y);
+        if (ui->radioButton_point->isChecked())
+            add_point(tmp);
+        if (ui->radioButton_pixel->isChecked())
+        {
+            myscene->add_first_pixel(tmp);
+            myscene->repaint();
+        }
+        if (ui->radioButton_ellipse->isChecked())
+            add_ellipse(tmp);
+    }
+}
+
+void MainWindow::on_button_close_p_clicked()
+{
+    close_poly();
+}
+
+void MainWindow::on_button_clear_fill_clicked()
+{
+    close_poly();
+    QColor tmp = myscene->get_color_fill();
+    QColor tmp_bg = myscene->get_color_bg();
+    myscene->set_color_fill(tmp_bg);
+    myscene->repaint();
+    myscene->set_color_fill(tmp);
+}
+
+void MainWindow::on_radioButton_ellipse_clicked()
+{
+    ui->edit_circle_a->setEnabled(true);
+    ui->edit_circle_b->setEnabled(true);
+    ui->button_close_p->setEnabled(false);
+}
+
+void MainWindow::on_radioButton_point_clicked()
+{
+    ui->edit_circle_a->setEnabled(false);
+    ui->edit_circle_b->setEnabled(false);
+    ui->button_close_p->setEnabled(true);
+}
+
+void MainWindow::on_radioButton_pixel_clicked()
+{
+    ui->edit_circle_a->setEnabled(false);
+    ui->edit_circle_b->setEnabled(false);
+    ui->button_close_p->setEnabled(false);
+}
