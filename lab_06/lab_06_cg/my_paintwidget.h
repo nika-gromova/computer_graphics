@@ -39,6 +39,8 @@ private:
     QPoint f_pixel;
     bool first_pixel = false;
 
+    QStack <QPoint> pixel_stack;
+
 
     void paint_on_image(void);
     void draw_edge(edge_type &e, QPainter &painter);

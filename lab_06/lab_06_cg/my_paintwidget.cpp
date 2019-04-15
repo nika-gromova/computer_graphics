@@ -31,7 +31,7 @@ void swap_num(int &x, int &y)
 void my_paintwidget::draw_line_bre(QPoint &start, QPoint &end, QPainter &painter, QColor &color)
 {
     QPen pen(color);
-    pen.setWidth(2);;
+    pen.setWidth(2);
     painter.setPen(pen);
     int x_start = start.x(), y_start = start.y();
     int x_end = end.x(), y_end = end.y();
@@ -113,6 +113,8 @@ void my_paintwidget::draw_ellipse(ellipse_type &el, QPainter &painter)
 void my_paintwidget::draw_ellipses()
 {
     QPainter painter(&my_image);
+    QPen pen(color_bound, 2);
+    painter.setPen(pen);
     for (int i = 0; i < ellipses.size(); i++)
         draw_ellipse(ellipses[i], painter);
 }
@@ -348,7 +350,7 @@ void my_paintwidget::fill_polygon(bool slow)
 {
     /*for (int i = 0; i < edges.size(); i++)
         printf("(%d; %d) - (%d; %d)\n", edges[i].start.x(), edges[i].start.y(), edges[i].end.x(), edges[i].end.y());*/
-    paint_on_image();
+    //paint_on_image();
     QPainter painter(&my_image);
     fill_polygon_(painter, slow);
     painter.end();

@@ -50,7 +50,7 @@
        <x>200</x>
        <y>30</y>
        <width>77</width>
-       <height>81</height>
+       <height>92</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -389,7 +389,7 @@
      </font>
     </property>
     <property name="title">
-     <string>Ввод точки</string>
+     <string>Ввод данных</string>
     </property>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
@@ -427,13 +427,13 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
+       <y>20</y>
        <width>261</width>
-       <height>71</height>
+       <height>77</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -475,7 +475,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
