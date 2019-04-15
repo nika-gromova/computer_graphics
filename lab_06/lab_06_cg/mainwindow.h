@@ -43,6 +43,8 @@ private slots:
 
     void on_radioButton_pixel_clicked();
 
+    void on_radioButton_random_clicked();
+
 private:
     Ui::MainWindow *ui;
     my_paintwidget *myscene;
@@ -53,6 +55,7 @@ private:
 
 protected:
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 

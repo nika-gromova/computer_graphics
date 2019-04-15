@@ -6,8 +6,8 @@
 
 my_paintwidget::my_paintwidget(QWidget *parent) : QWidget(parent)
 {
-    int image_height = 600;
-    int image_width = 640;
+    int image_height = Y_max;
+    int image_width = X_max;
     my_image = QImage(image_width, image_height, QImage::Format_RGB32);
     my_image.fill(color_bg);
 }
@@ -31,7 +31,6 @@ void swap_num(int &x, int &y)
 void my_paintwidget::draw_line_bre(QPoint &start, QPoint &end, QPainter &painter, QColor &color)
 {
     QPen pen(color);
-    pen.setWidth(2);
     painter.setPen(pen);
     int x_start = start.x(), y_start = start.y();
     int x_end = end.x(), y_end = end.y();
@@ -69,7 +68,6 @@ void my_paintwidget::draw_line_bre(QPoint &start, QPoint &end, QPainter &painter
 
 void my_paintwidget::paint_on_image()
 {
-    calc_min_max();
     my_image.fill(color_bg);
     draw_point();
     draw_bound();
@@ -113,172 +111,112 @@ void my_paintwidget::draw_ellipse(ellipse_type &el, QPainter &painter)
 void my_paintwidget::draw_ellipses()
 {
     QPainter painter(&my_image);
-    QPen pen(color_bound, 2);
+    QPen pen(color_bound);
     painter.setPen(pen);
     for (int i = 0; i < ellipses.size(); i++)
         draw_ellipse(ellipses[i], painter);
 }
 
-void my_paintwidget::calc_min_max()
+void my_paintwidget::find_new_pixel(QStack<QPoint> &st, int x, int y, int xr)
 {
-    if (edges.size() == 0)
+    if (y <= Y_min || y >= Y_max)
         return;
-    int x_max = edges[0].start.x(), x_min = edges[0].start.x();
-    int y_max = edges[0].start.y(), y_min = edges[0].start.y();
-    for (int i = 0; i < edges.size(); i++)
+    bool flag = false;
+    QColor tmp_color;
+    QPoint tmp_pix;
+    int tmp_x;
+    while (x <= xr)
     {
-        if (x_max < edges[i].start.x())
-            x_max = edges[i].start.x();
-        if (x_max < edges[i].end.x())
-            x_max = edges[i].end.x();
-        if (x_min > edges[i].start.x())
-            x_min = edges[i].start.x();
-        if (x_min > edges[i].end.x())
-            x_min = edges[i].end.x();
-        if (y_max < edges[i].end.y())
-            y_max = edges[i].end.y();
-        if (y_min > edges[i].start.y())
-            y_min = edges[i].start.y();
-    }
-    max_p.setX(x_max);
-    max_p.setY(y_max);
-    min_p.setX(x_min);
-    min_p.setY(y_min);
-}
-
-void my_paintwidget::color_pixel(int x, int y, QPainter &painter)
-{
-    QColor color = my_image.pixelColor(x, y);
-    if (color == color_fill)
-    {
-        painter.setPen(color_bg);
-        painter.drawPoint(x, y);
-    }
-    else if (color == color_bg)
-    {
-        painter.setPen(color_fill);
-        painter.drawPoint(x, y);
+        flag = false;
+        tmp_color = my_image.pixelColor(x, y);
+        while (x < X_max && tmp_color != color_bound && tmp_color != color_fill && x <= xr)
+        {
+            if (!flag)
+                flag = true;
+            x += 1;
+            tmp_color = my_image.pixelColor(x, y);
+        }
+        if (flag)
+        {
+            tmp_color = my_image.pixelColor(x, y);
+            if (x == xr && tmp_color != color_bound && tmp_color != color_fill)
+                tmp_pix.setX(x);
+            else
+                tmp_pix.setX(x - 1);
+            tmp_pix.setY(y);
+            st.push(tmp_pix);
+            flag = false;
+        }
+        tmp_x = x;
+        tmp_color = my_image.pixelColor(x, y);
+        while (x < X_max && (tmp_color == color_bound || tmp_color == color_fill) && x <= xr)
+        {
+            x += 1;
+            tmp_color = my_image.pixelColor(x, y);
+        }
+        if (x == tmp_x)
+            x += 1;
     }
 }
 
 void my_paintwidget::fill_polygon_(QPainter &painter, bool slow)
 {
-    /*
-    int tmp_start = 0;
-    int sep = 0;
-    for (int i = 0; i < edges.size(); i++)
+    QPoint tmp_pix;
+    int tmp_x;
+    int x, y;
+    int x_r, x_l;
+
+    painter.setPen(color_fill);
+    QStack <QPoint> pixel_stack;
+    pixel_stack.push(f_pixel);
+    while (!pixel_stack.isEmpty())
     {
-        int x_start = edges[i].start.x(), y_start = edges[i].start.y();
-        int x_end = edges[i].end.x(), y_end = edges[i].end.y();
-        bool xl = x_start < sep_pos_x;
-        bool xr = x_end < sep_pos_x;
-        int dx = x_end - x_start;
-        int dy = y_end - y_start;
-        double k = ((double)dx) / dy;
-        if (xl && xr)
+        tmp_pix = pixel_stack.pop();
+        x = tmp_pix.x();
+        y = tmp_pix.y();
+        painter.drawPoint(tmp_pix);
+        tmp_x = x;
+        x += 1;
+        while (x < X_max && my_image.pixelColor(x, y) != color_bound)
         {
-            for (int y = y_start; y < y_end; y++)
-            {
-                tmp_start = round(k * (y - y_start) + x_start);
-                for (int x = tmp_start; x < sep_pos_x; x++)
-                {
-                    color_pixel(x, y, painter);
-                }
-                if (slow)
-                {
-                    Sleep(DELAY_TIME);
-                    repaint();
-                }
-            }
+            painter.drawPoint(x, y);
+            x += 1;
         }
-        else if (!xl && !xr)
+        x_r = x - 1;
+        x = tmp_x;
+        x -= 1;
+        while (x > X_min && my_image.pixelColor(x, y) != color_bound)
         {
-            for (int y = y_start; y < y_end; y++)
-            {
-                tmp_start = round(k * (y - y_start) + x_start);
-                for (int x = tmp_start; x > sep_pos_x; x--)
-                {
-                    color_pixel(x, y, painter);
-                }
-                if (slow)
-                {
-                    Sleep(DELAY_TIME);
-                    repaint();
-                }
-            }
+            painter.drawPoint(x, y);
+            x -= 1;
         }
-        else if (xl && !xr)
+        x_l = x + 1;
+        find_new_pixel(pixel_stack, x_l, y + 1, x_r);
+        find_new_pixel(pixel_stack, x_l, y - 1, x_r);
+        if (slow)
         {
-            sep = round((1 / k) * (sep_pos_x - x_start) + y_start);
-            for (int y = y_start; y < sep; y++)
-            {
-                tmp_start = round(k * (y - y_start) + x_start);
-                for (int x = tmp_start; x < sep_pos_x; x++)
-                    color_pixel(x, y, painter);
-                if (slow)
-                {
-                    Sleep(DELAY_TIME);
-                    repaint();
-                }
-            }
-            for (int y = sep; y < y_end; y++)
-            {
-                tmp_start = round(k * (y - y_start) + x_start);
-                for (int x = tmp_start; x > sep_pos_x; x--)
-                    color_pixel(x, y, painter);
-                if (slow)
-                {
-                    Sleep(DELAY_TIME);
-                    repaint();
-                }
-            }
-        }
-        else
-        {
-            sep = round((1 / k) * (sep_pos_x - x_start) + y_start);
-            for (int y = y_start; y < sep; y++)
-            {
-                tmp_start = round(k * (y - y_start) + x_start);
-                for (int x = tmp_start; x > sep_pos_x; x--)
-                    color_pixel(x, y, painter);
-                if (slow)
-                {
-                    Sleep(DELAY_TIME);
-                    repaint();
-                }
-            }
-            for (int y = sep; y < y_end; y++)
-            {
-                tmp_start = round(k * (y - y_start) + x_start);
-                for (int x = tmp_start; x < sep_pos_x; x++)
-                    color_pixel(x, y, painter);
-                if (slow)
-                {
-                    Sleep(DELAY_TIME);
-                    repaint();
-                }
-            }
+            Sleep(DELAY_TIME);
+            repaint();
         }
     }
-    */
 }
 
 void my_paintwidget::set_color_bound(QColor &color)
 {
     color_bound = color;
-    paint_on_image();
+    //paint_on_image();
 }
 
 void my_paintwidget::set_color_fill(QColor &color)
 {
     color_fill = color;
-    paint_on_image();
+    //paint_on_image();
 }
 
 void my_paintwidget::set_color_bg(QColor &color)
 {
     color_bg = color;
-    paint_on_image();
+    //paint_on_image();
 }
 
 QColor my_paintwidget::get_color_bound()
@@ -300,7 +238,9 @@ void my_paintwidget::add_new_point(QPoint &point)
 {
     first_point = true;
     f_point = point;
-    paint_on_image();
+
+    draw_point();
+    //paint_on_image();
 }
 
 void my_paintwidget::add_new_edge(edge_type edge)
@@ -314,43 +254,45 @@ void my_paintwidget::add_new_edge(edge_type edge)
         edge.end = tmp;
     }
     edges.append(edge);
-    paint_on_image();
+    draw_bound();
+    //paint_on_image();
 }
 
 void my_paintwidget::add_first_pixel(QPoint &point)
 {
     first_pixel = true;
     f_pixel = point;
-    paint_on_image();
+    draw_point();
+    //paint_on_image();
 }
 
 void my_paintwidget::add_new_ellipse(ellipse_type ellipse)
 {
     ellipses.append(ellipse);
-    paint_on_image();
+    draw_ellipses();
+    //paint_on_image();
 }
 
 void my_paintwidget::clear()
 {
     edges.clear();
     ellipses.clear();
-    max_p.setX(-1);
-    max_p.setY(-1);
-    min_p.setX(-1);
-    min_p.setY(-1);
     f_pixel.setX(-1);
     f_pixel.setY(-1);
     f_point.setX(-1);
     f_point.setY(-1);
     first_point = true;
+    first_pixel = false;
+    paint_on_image();
+}
+
+void my_paintwidget::update_all()
+{
     paint_on_image();
 }
 
 void my_paintwidget::fill_polygon(bool slow)
 {
-    /*for (int i = 0; i < edges.size(); i++)
-        printf("(%d; %d) - (%d; %d)\n", edges[i].start.x(), edges[i].start.y(), edges[i].end.x(), edges[i].end.y());*/
-    //paint_on_image();
     QPainter painter(&my_image);
     fill_polygon_(painter, slow);
     painter.end();

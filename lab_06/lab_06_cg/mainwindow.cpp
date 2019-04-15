@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->edit_circle_b->setEnabled(false);
 
     myscene = new my_paintwidget(ui->draw_widget);
-    myscene->setMinimumSize(640, 600);
+    myscene->setMinimumSize(X_max, Y_max);
     new_bound = true;
     shift_pressed = false;
 }
@@ -115,7 +115,7 @@ void MainWindow::on_button_color_bg_clicked()
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     QPoint p = myscene->mapFromGlobal(QCursor::pos());
-    if (p.x() < 640 && p.x() > 0 && p.y() > 0 && p.x() < 600)
+    if (p.x() < X_max && p.x() > X_min && p.y() > Y_min && p.x() < Y_max)
     {
         int dx = abs(p.x() - previous_point.x());
         int dy = abs(p.y() - previous_point.y());
@@ -145,6 +145,20 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     }
 }
 
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (ui->radioButton_random->isChecked())
+    {
+        QPoint p = myscene->mapFromGlobal(QCursor::pos());
+        if (p.x() < X_max && p.x() > X_min && p.y() > Y_min && p.x() < Y_max)
+        {
+            add_point(p);
+            if (event->button() == Qt::RightButton)
+                close_poly();
+        }
+    }
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Shift)
@@ -160,13 +174,19 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 void MainWindow::on_button_fill_clicked()
 {
     close_poly();
-    myscene->fill_polygon(false);
+    if (!myscene->first_pixel)
+        QMessageBox::information(this, "Затравочный пиксель", "Введите затравочный пиксель");
+    else
+        myscene->fill_polygon(false);
 }
 
 void MainWindow::on_button_fill_slow_clicked()
 {
     close_poly();
-    myscene->fill_polygon(true);
+    if (!myscene->first_pixel)
+        QMessageBox::information(this, "Затравочный пиксель", "Введите затравочный пиксель");
+    else
+        myscene->fill_polygon(true);
 }
 
 void MainWindow::on_button_clear_clicked()
@@ -210,6 +230,7 @@ void MainWindow::on_button_clear_fill_clicked()
     QColor tmp = myscene->get_color_fill();
     QColor tmp_bg = myscene->get_color_bg();
     myscene->set_color_fill(tmp_bg);
+    myscene->update_all();
     myscene->repaint();
     myscene->set_color_fill(tmp);
 }
@@ -233,4 +254,11 @@ void MainWindow::on_radioButton_pixel_clicked()
     ui->edit_circle_a->setEnabled(false);
     ui->edit_circle_b->setEnabled(false);
     ui->button_close_p->setEnabled(false);
+}
+
+void MainWindow::on_radioButton_random_clicked()
+{
+    ui->edit_circle_a->setEnabled(false);
+    ui->edit_circle_b->setEnabled(false);
+    ui->button_close_p->setEnabled(true);
 }

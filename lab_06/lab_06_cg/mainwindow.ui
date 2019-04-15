@@ -202,7 +202,7 @@
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>320</y>
+      <y>340</y>
       <width>281</width>
       <height>111</height>
      </rect>
@@ -380,7 +380,7 @@
       <x>660</x>
       <y>120</y>
       <width>281</width>
-      <height>201</height>
+      <height>221</height>
      </rect>
     </property>
     <property name="font">
@@ -395,7 +395,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>160</y>
+       <y>190</y>
        <width>261</width>
        <height>31</height>
       </rect>
@@ -433,7 +433,7 @@
        <x>10</x>
        <y>20</y>
        <width>261</width>
-       <height>77</height>
+       <height>111</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -473,13 +473,25 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QRadioButton" name="radioButton_random">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Ввод произвольной области</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>100</y>
+       <y>130</y>
        <width>261</width>
        <height>56</height>
       </rect>

@@ -5,8 +5,13 @@
 #include <QColor>
 #include <QPainter>
 #include <math.h>
+#include <QStack>
 
 #define DELAY_TIME 50
+#define X_max 640
+#define X_min 0
+#define Y_max 600
+#define Y_min 0
 
 struct edge_type
 {
@@ -28,8 +33,6 @@ private:
     QColor color_bound = QColor(Qt::black);
     QColor color_fill = QColor(Qt::green);
     QColor color_bg = QColor(Qt::white);
-    QPoint min_p;
-    QPoint max_p;
     QVector <edge_type> edges;
     QVector <ellipse_type> ellipses;
     QImage my_image;
@@ -37,9 +40,6 @@ private:
     bool first_point;
 
     QPoint f_pixel;
-    bool first_pixel = false;
-
-    QStack <QPoint> pixel_stack;
 
 
     void paint_on_image(void);
@@ -48,10 +48,9 @@ private:
     void draw_point(void);
     void draw_ellipse(ellipse_type &el, QPainter &painter);
     void draw_ellipses(void);
-    void calc_min_max(void);
     void fill_polygon_(QPainter &painter, bool slow);
     void draw_line_bre(QPoint &start, QPoint &end, QPainter &painter, QColor &color);
-    void color_pixel(int x, int y, QPainter &painter);
+    void find_new_pixel(QStack<QPoint> &st, int x, int y, int xr);
 
 public:
     explicit my_paintwidget(QWidget *parent = nullptr);
@@ -70,8 +69,11 @@ public:
     void add_new_ellipse(ellipse_type ellipse);
 
     void clear(void);
+    void update_all(void);
 
     void fill_polygon(bool slow);
+
+    bool first_pixel = false;
 
 signals:
 
