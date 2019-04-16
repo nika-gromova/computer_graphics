@@ -129,7 +129,7 @@ void my_paintwidget::find_new_pixel(QStack<QPoint> &st, int x, int y, int xr)
     {
         flag = false;
         tmp_color = my_image.pixelColor(x, y);
-        while (x < X_max && tmp_color != color_bound && tmp_color != color_fill && x <= xr)
+        while (x < X_max  && x <= xr && tmp_color != color_bound && tmp_color != color_fill)
         {
             if (!flag)
                 flag = true;
@@ -149,7 +149,7 @@ void my_paintwidget::find_new_pixel(QStack<QPoint> &st, int x, int y, int xr)
         }
         tmp_x = x;
         tmp_color = my_image.pixelColor(x, y);
-        while (x < X_max && (tmp_color == color_bound || tmp_color == color_fill) && x <= xr)
+        while (x < X_max && x < xr && (tmp_color == color_bound || tmp_color == color_fill))
         {
             x += 1;
             tmp_color = my_image.pixelColor(x, y);
