@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QRect>
+#include <math.h>
 
 #define X_max 600
 #define X_min 0

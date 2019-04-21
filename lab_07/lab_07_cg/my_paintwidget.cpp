@@ -78,7 +78,7 @@ void my_paintwidget::calculate_one(const segment_type seg)
     char prod;
 
     int count = 1;
-    while (rc == WORK && count < 4)
+    while (rc == WORK)
     {
         calculate_dot_code(P1, TP1, cut_params, sum1);
         calculate_dot_code(P2, TP2, cut_params, sum2);
@@ -100,10 +100,12 @@ void my_paintwidget::calculate_one(const segment_type seg)
             {
                 if (sum2 != 0)
                 {
-                    while (abs(P1.x() - P2.x()) > eps || abs(P1.y() - P2.y()) > eps)
+                    while (sqrt((P1.x() - P2.x()) * (P1.x() - P2.x()) + (P1.y() - P2.y()) * (P1.y() - P2.y())) >= eps)//(abs(P1.x() - P2.x()) > eps || abs(P1.y() -P2.y())
                     {
-                        Pm.setX((P1.x() + P2.x()) / 2);
-                        Pm.setY((P1.y() + P2.y()) / 2);
+                        double tmp = (double)(P1.x() + P2.x()) / 2.0;
+                        Pm.setX(round(tmp));
+                        tmp = (double)(P1.y() + P2.y()) / 2.0;
+                        Pm.setY(round(tmp));
                         remember = P1;
                         P1 = Pm;
                         calculate_dot_code(P1, TP1, cut_params, sum1);

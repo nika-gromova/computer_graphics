@@ -48,8 +48,8 @@ void MainWindow::on_add_cut_pushButton_clicked()
     {
         ok_1 = true;
         double eps = ui->eps_edit->text().toDouble(&ok_1);
-        if (!ok_1)
-            QMessageBox::warning(this, "Ошибка ввода", "Вводите, пожалуйста, точность в виде вещественного числа.");
+        if (!ok_1 || eps < 1)
+            QMessageBox::warning(this, "Ошибка ввода", "Вводите, пожалуйста, точность в виде вещественного числа не меньшего 1.");
         else
         {
             myscene->set_cut(xl, xr, yb, yt);
