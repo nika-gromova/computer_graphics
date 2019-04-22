@@ -48,8 +48,8 @@ void MainWindow::on_add_cut_pushButton_clicked()
     {
         ok_1 = true;
         double eps = ui->eps_edit->text().toDouble(&ok_1);
-        if (!ok_1 || eps < 1)
-            QMessageBox::warning(this, "Ошибка ввода", "Вводите, пожалуйста, точность в виде вещественного числа не меньшего 1.");
+        if (!ok_1 || eps < 2)
+            QMessageBox::warning(this, "Ошибка ввода", "Вводите, пожалуйста, квадрат точности в виде вещественного числа не меньшего 2.");
         else
         {
             myscene->set_cut(xl, xr, yb, yt);
@@ -74,5 +74,14 @@ void MainWindow::on_clear_all_pushButton_clicked()
 void MainWindow::on_cut_pushButton_clicked()
 {
     myscene->cut_result();
+    myscene->repaint();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    int xl = 150, xr = 450, yb = 440, yt = 140;
+    double eps = 2.0;
+    myscene->set_cut(xl, xr, yb, yt);
+    myscene->set_eps(eps);
     myscene->repaint();
 }
