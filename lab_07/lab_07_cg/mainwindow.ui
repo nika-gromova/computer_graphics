@@ -330,7 +330,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Квадрат точности:</string>
+           <string>Точность:</string>
           </property>
          </widget>
         </item>
@@ -347,13 +347,13 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>100</x>
        <y>130</y>
-       <width>116</width>
-       <height>62</height>
+       <width>118</width>
+       <height>66</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -390,7 +390,7 @@
       <x>630</x>
       <y>410</y>
       <width>311</width>
-      <height>64</height>
+      <height>68</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">

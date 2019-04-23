@@ -100,11 +100,9 @@ void my_paintwidget::calculate_one(const segment_type seg)
             {
                 if (sum2 != 0)
                 {
-                    while ((P1.x() - P2.x()) * (P1.x() - P2.x()) + (P1.y() - P2.y()) * (P1.y() - P2.y()) > eps)
+                    while (abs(P1.x() - P2.x()) > eps || abs(P1.y() - P2.y()) > eps)
                     {
-                        //tmp = (P1.x() + P2.x()) >> 1;
                         Pm.setX((P1.x() + P2.x()) >> 1);
-                        //tmp = (P1.y() + P2.y()) >> 1;
                         Pm.setY((P1.y() + P2.y()) >> 1);
                         remember = P1;
                         P1 = Pm;
