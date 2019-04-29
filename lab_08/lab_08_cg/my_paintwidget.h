@@ -13,7 +13,7 @@
 #define Y_max 590
 #define Y_min 0
 
-#define SIGN(x) ((x) > 0) ? 1 : (-1)
+#define SIGN(x) ((x) > 0) ? 1 : (((x) < 0) ? -1 : 0)
 
 struct segment_type
 {
@@ -74,19 +74,19 @@ private:
     bool first_point_cut;
     QPoint f_point_cut;
 
+    int direction;
+
     QImage my_image;
 
     void draw_point();
-
     void draw_segments();
     void draw_cut();
     void draw_result();
     void draw_image();
-    int is_convex();
-    /*
+
     void calculate_normals();
     void calculate_one(const segment_type seg);
-    void calculate_results();*/
+    void calculate_results();
 
 public:
     explicit my_paintwidget(QWidget *parent = nullptr);
@@ -99,9 +99,10 @@ public:
     int find_closest(QPoint &p);
     void clear_all();
     void clear_segments();
-    /*
+    void clear_cutter();
+    bool cutter_is_empty();
+    bool is_convex();
     void cut_result();
-    */
 
 signals:
 

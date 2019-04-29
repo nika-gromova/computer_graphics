@@ -107,7 +107,7 @@ void vector_mult(vector_type &a, vector_type &b, vector_type &res)
     res.z = a.x * b.y - a.y * b.x;
 }
 
-int my_paintwidget::is_convex()
+bool my_paintwidget::is_convex()
 {
     vector_type a = vector_type(cut_params[0]);
     vector_type b;
@@ -120,10 +120,46 @@ int my_paintwidget::is_convex()
         if (sign == 0)
             sign = SIGN(mult_res.z);
         if (mult_res.z && sign != SIGN(mult_res.z))
-            return 0;
+        {
+            direction = 0;
+            return false;
+        }
         a = b;
     }
-    return sign;
+    direction = sign;
+    return true;
+}
+
+void my_paintwidget::cut_result()
+{
+    calculate_results();
+    draw_result();
+}
+
+void my_paintwidget::calculate_normals()
+{
+    vector_type tmp;
+    for (int i = 0; i < cut_params.size(); i++)
+    {
+        tmp = vector_type(cut_params[i]);
+        if (direction == 1)
+            normals.push_back(vector_type(-tmp.y, tmp.x));
+        else
+            normals.push_back(vector_type(tmp.y, -tmp.x));
+    }
+}
+
+void my_paintwidget::calculate_one(const segment_type seg)
+{
+
+}
+
+void my_paintwidget::calculate_results()
+{
+    for (int i = 0; i < segments.size(); i++)
+    {
+        calculate_one(segments[i]);
+    }
 }
 
 void my_paintwidget::add_segment(segment_type segment)
@@ -168,6 +204,17 @@ void my_paintwidget::clear_segments()
     segments.clear();
     result.clear();
     draw_image();
+}
+
+void my_paintwidget::clear_cutter()
+{
+    cut_params.clear();
+    draw_image();
+}
+
+bool my_paintwidget::cutter_is_empty()
+{
+    return (cut_params.isEmpty());
 }
 
 void my_paintwidget::paintEvent(QPaintEvent *event)

@@ -166,6 +166,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 void MainWindow::on_add_segment_radioButton_clicked()
 {
     close_poly();
+    if (myscene->cutter_is_empty())
+        return;
+    if (!myscene->is_convex())
+        QMessageBox::warning(this, "Ошибка отсекателя", "Введенный отсекатель не выпуклый. Отсечение не может быть произведено.");
 }
 
 void MainWindow::on_add_cutter_radioButton_clicked()
@@ -175,12 +179,32 @@ void MainWindow::on_add_cutter_radioButton_clicked()
 
 void MainWindow::on_clear_segments_pushButton_clicked()
 {
+    new_point = true;
     myscene->clear_segments();
     myscene->repaint();
 }
 
 void MainWindow::on_clear_all_pushButton_clicked()
 {
+    new_point = true;
     myscene->clear_all();
     myscene->repaint();
+}
+
+void MainWindow::on_clear_cutter_pushButton_clicked()
+{
+    new_point = true;
+    myscene->clear_cutter();
+    myscene->repaint();
+}
+
+void MainWindow::on_cut_pushButton_clicked()
+{
+    if (!myscene->is_convex())
+        QMessageBox::warning(this, "Ошибка отсекателя", "Введенный отсекатель не выпуклый. Отсечение не может быть произведено.");
+    else
+    {
+        myscene->cut_result();
+        myscene->repaint();
+    }
 }
