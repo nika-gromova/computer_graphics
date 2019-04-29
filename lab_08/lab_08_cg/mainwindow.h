@@ -37,6 +37,10 @@ private slots:
 
     void on_cut_pushButton_clicked();
 
+    void on_pushButton_clicked();
+
+    void on_default_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     my_paintwidget *myscene;

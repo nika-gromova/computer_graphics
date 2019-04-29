@@ -1,4 +1,5 @@
 #include "my_paintwidget.h"
+#include "math_module.h"
 
 my_paintwidget::my_paintwidget(QWidget *parent) : QWidget(parent)
 {
@@ -7,47 +8,7 @@ my_paintwidget::my_paintwidget(QWidget *parent) : QWidget(parent)
     first_point_seg = true;
 }
 
-segment_type my_paintwidget::get_edge(int index)
-{
-    return cut_params[index];
-}
-
-double distance(QPoint &p1, QPoint &p2)
-{
-    return sqrt((p2.x() - p1.x()) * (p2.x() - p1.x()) + (p2.y() - p1.y()) * (p2.y() - p1.y()));
-}
-
-double distance_to_point(QPoint &p1, QPoint &p2, QPoint &p)
-{
-    double p1p2 = distance(p1, p2);
-    double p1p = distance(p1, p);
-    double p2p = distance(p2, p);
-    if (p1p2 + p1p < p2p)
-        return p1p;
-    if (p1p2 + p2p < p1p)
-        return p2p;
-    int dx = p2.x() - p1.x();
-    int dy = p2.y() - p1.y();
-    double d = fabs((p.y() - p1.y()) * dx - (p.x() - p1.x()) * dy) / p1p2;
-    return d;
-}
-
-int my_paintwidget::find_closest(QPoint &p)
-{
-    double min_distance = distance_to_point(cut_params[0].p1, cut_params[0].p2, p);
-    int min_index = 0;
-    double tmp;
-    for (int i = 0; i < cut_params.size(); i++)
-    {
-        tmp = distance_to_point(cut_params[i].p1, cut_params[i].p2, p);
-        if (tmp < min_distance)
-        {
-            min_distance = tmp;
-            min_index = i;
-        }
-    }
-    return min_index;
-}
+// ------------------------------------------------------------drawing----------------------------------------------------------------
 
 void my_paintwidget::draw_point()
 {
@@ -89,6 +50,7 @@ void my_paintwidget::draw_cut()
 void my_paintwidget::draw_result()
 {
     QPen pen(color_result);
+    pen.setWidth(2);
     draw_lines(result, &my_image, pen);
 }
 
@@ -100,41 +62,8 @@ void my_paintwidget::draw_image()
     draw_cut();
 }
 
-void vector_mult(vector_type &a, vector_type &b, vector_type &res)
-{
-    res.x = a.y * b.z - a.z * b.y;
-    res.y = a.z * b.x - a.x * b.z;
-    res.z = a.x * b.y - a.y * b.x;
-}
 
-bool my_paintwidget::is_convex()
-{
-    vector_type a = vector_type(cut_params[0]);
-    vector_type b;
-    vector_type mult_res;
-    int sign = 0;
-    for (int i = 1; i < cut_params.size(); i++)
-    {
-        b = vector_type(cut_params[i]);
-        vector_mult(a, b, mult_res);
-        if (sign == 0)
-            sign = SIGN(mult_res.z);
-        if (mult_res.z && sign != SIGN(mult_res.z))
-        {
-            direction = 0;
-            return false;
-        }
-        a = b;
-    }
-    direction = sign;
-    return true;
-}
-
-void my_paintwidget::cut_result()
-{
-    calculate_results();
-    draw_result();
-}
+// -------------------------------------------------normals for each edge of polygon--------------------------------------------------
 
 void my_paintwidget::calculate_normals()
 {
@@ -149,18 +78,71 @@ void my_paintwidget::calculate_normals()
     }
 }
 
+// ------------------------------------------------calculating results of cutting-----------------------------------------------------
+
 void my_paintwidget::calculate_one(const segment_type seg)
 {
-
+    int rc = WORK;
+    double t_bottom = 0;
+    double t_top = 1;
+    double t_cur;
+    segment_type cur_edge;
+    vector_type D = vector_type(seg);
+    vector_type W;
+    int D_scalar, W_scalar;
+    for (int i = 0; i < cut_params.size() && rc == WORK; i++)
+    {
+        cur_edge = cut_params[i];
+        W = vector_type(seg.p1, cur_edge.p1);
+        D_scalar = scalar_mult(normals[i], D);
+        W_scalar = scalar_mult(W, normals[i]);
+        if (D_scalar == 0)
+        {
+            if (W_scalar < 0)
+                rc = EXIT;
+        }
+        else
+        {
+            t_cur = -W_scalar / (double)D_scalar;
+            if (D_scalar > 0)
+            {
+                if (t_cur > 1)
+                    rc = EXIT;
+                else
+                    t_bottom = (t_bottom > t_cur) ? t_bottom : t_cur;
+            }
+            else
+            {
+                if (t_cur < 0)
+                    rc = EXIT;
+                else
+                    t_top = (t_top < t_cur) ? t_top : t_cur;
+            }
+        }
+    }
+    if (rc != EXIT)
+    {
+        if (t_bottom <= t_top)
+        {
+            QPoint p1 = calculate_P(seg.p1, seg.p2, t_bottom);
+            QPoint p2 = calculate_P(seg.p1, seg.p2, t_top);
+            segment_type res = segment_type(p1, p2);
+            result.push_back(res);
+        }
+    }
 }
 
 void my_paintwidget::calculate_results()
 {
+    calculate_normals();
     for (int i = 0; i < segments.size(); i++)
     {
         calculate_one(segments[i]);
     }
 }
+
+
+// ---------------------------------------------------------------public--------------------------------------------------------------
 
 void my_paintwidget::add_segment(segment_type segment)
 {
@@ -190,6 +172,11 @@ void my_paintwidget::add_point_cut(QPoint p)
     draw_point();
 }
 
+void my_paintwidget::cut_result()
+{
+    calculate_results();
+    draw_result();
+}
 
 void my_paintwidget::clear_all()
 {
@@ -215,6 +202,58 @@ void my_paintwidget::clear_cutter()
 bool my_paintwidget::cutter_is_empty()
 {
     return (cut_params.isEmpty());
+}
+
+segment_type my_paintwidget::get_edge(int index)
+{
+    return cut_params[index];
+}
+
+int my_paintwidget::find_closest(QPoint &p)
+{
+    double min_distance = distance_to_point(cut_params[0].p1, cut_params[0].p2, p);
+    int min_index = 0;
+    double tmp;
+    for (int i = 0; i < cut_params.size(); i++)
+    {
+        tmp = distance_to_point(cut_params[i].p1, cut_params[i].p2, p);
+        if (tmp < min_distance)
+        {
+            min_distance = tmp;
+            min_index = i;
+        }
+    }
+    return min_index;
+}
+
+// -------------------------------------------------check if the polygon (cutter) is convex-------------------------------------------
+
+bool my_paintwidget::is_convex()
+{
+    if (cut_params.isEmpty())
+    {
+        direction = 0;
+        return false;
+    }
+    vector_type a = vector_type(cut_params[0]);
+    vector_type b;
+    vector_type mult_res;
+    int sign = 0;
+    for (int i = 1; i < cut_params.size(); i++)
+    {
+        b = vector_type(cut_params[i]);
+        vector_mult(a, b, mult_res);
+        if (sign == 0)
+            sign = SIGN(mult_res.z);
+        if (mult_res.z && sign != SIGN(mult_res.z))
+        {
+            direction = 0;
+            return false;
+        }
+        a = b;
+    }
+    direction = sign;
+    return true;
 }
 
 void my_paintwidget::paintEvent(QPaintEvent *event)

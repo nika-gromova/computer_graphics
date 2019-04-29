@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    my_paintwidget.cpp
+    my_paintwidget.cpp \
+    math_module.cpp
 
 HEADERS += \
         mainwindow.h \
-    my_paintwidget.h
+    my_paintwidget.h \
+    math_module.h
 
 FORMS += \
         mainwindow.ui

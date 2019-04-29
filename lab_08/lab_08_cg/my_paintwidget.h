@@ -13,6 +13,9 @@
 #define Y_max 590
 #define Y_min 0
 
+#define WORK -5
+#define EXIT -10
+
 #define SIGN(x) ((x) > 0) ? 1 : (((x) < 0) ? -1 : 0)
 
 struct segment_type

@@ -208,3 +208,17 @@ void MainWindow::on_cut_pushButton_clicked()
         myscene->repaint();
     }
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    close_poly();
+}
+
+void MainWindow::on_default_pushButton_clicked()
+{
+    myscene->add_cut_seg(segment_type(QPoint(200, 295), QPoint(345, 150)));
+    myscene->add_cut_seg(segment_type(QPoint(345, 150), QPoint(490, 295)));
+    myscene->add_cut_seg(segment_type(QPoint(490, 295), QPoint(345, 440)));
+    myscene->add_cut_seg(segment_type(QPoint(345, 440), QPoint(200, 295)));
+    myscene->repaint();
+}

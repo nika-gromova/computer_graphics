@@ -269,11 +269,11 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>13</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Координаты отсекателя по умолчанию (система координат экранная):</string>
+     <string>Координаты отсекателя по умолчанию (система координат экранная): (200, 295); (345, 150); (490, 295); (345, 440).</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -288,7 +288,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>710</x>
