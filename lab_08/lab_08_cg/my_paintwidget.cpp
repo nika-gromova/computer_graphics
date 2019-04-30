@@ -183,6 +183,7 @@ void my_paintwidget::clear_all()
     segments.clear();
     cut_params.clear();
     result.clear();
+    normals.clear();
     draw_image();
 }
 
@@ -196,6 +197,7 @@ void my_paintwidget::clear_segments()
 void my_paintwidget::clear_cutter()
 {
     cut_params.clear();
+    normals.clear();
     draw_image();
 }
 
