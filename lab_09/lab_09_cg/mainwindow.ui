@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Лабораторная работа №8. Отсечение выпуклым многоугольником.</string>
+   <string>Лабораторная работа №9. Отсечение выпуклым многоугольником.</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="draw_widget" native="true">
@@ -52,7 +52,7 @@
        <x>10</x>
        <y>30</y>
        <width>293</width>
-       <height>51</height>
+       <height>54</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -72,7 +72,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -221,7 +221,7 @@
     <property name="title">
      <string>Отсечение</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>

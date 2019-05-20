@@ -64,10 +64,9 @@ private:
     QColor color_bg = QColor(Qt::white);
     QColor color_poly = QColor(Qt::red);
     QColor color_cut = QColor(Qt::blue);
-    QColor color_result = QColor(Qt::gray);
+    QColor color_result = QColor(Qt::black);
 
-    QVector<QPoint> cut_params;
-    QVector<vector_type> normals;
+    QVector<QPoint> cut_params;    
     QVector<QPoint> poly;
     QVector<QPoint> result;
 
@@ -87,7 +86,6 @@ private:
     void draw_result();
     void draw_image();
 
-    void calculate_normals();
     void calculate_results();
 
     bool is_crossing(QPoint &seg_b, QPoint &seg_e, int &index);

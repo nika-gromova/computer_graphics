@@ -66,22 +66,6 @@ void my_paintwidget::draw_image()
     draw_result();
 }
 
-
-// -------------------------------------------------normals for each edge of polygon--------------------------------------------------
-
-void my_paintwidget::calculate_normals()
-{
-    vector_type tmp;
-    for (int i = 0; i < cut_params.size() - 1; i++)
-    {
-        tmp = vector_type(cut_params[i + 1], cut_params[i]);
-        if (direction == 1)
-            normals.push_back(vector_type(-tmp.y, tmp.x));
-        else
-            normals.push_back(vector_type(tmp.y, -tmp.x));
-    }
-}
-
 // ------------------------------------------------calculating results of cutting-----------------------------------------------------
 
 
@@ -95,8 +79,13 @@ void copy_arr(QVector<QPoint> &dst, const QVector<QPoint> &src)
 int my_paintwidget::is_visible(QPoint &p, int &index)
 {
     vector_type fs(p, cut_params[index]);
-    int tmp = scalar_mult(fs, normals[index]);
-    return SIGN(tmp);
+    vector_type ci(cut_params[index + 1], cut_params[index]);
+    vector_type res;
+    if (direction == -1)
+        vector_mult(fs, ci, res);
+    else
+        vector_mult(ci, fs, res);
+    return SIGN(res.z);
 }
 
 bool my_paintwidget::is_crossing(QPoint &seg_b, QPoint &seg_e, int &index)
@@ -123,6 +112,7 @@ QPoint calculate_crossing_point(QPoint &P1, QPoint &P2, QPoint &Q1, QPoint &Q2)
 
 void my_paintwidget::calculate_results()
 {
+    poly.removeLast();
     copy_arr(result, poly);
     QVector<QPoint> B;
     QPoint Aj;
@@ -134,7 +124,7 @@ void my_paintwidget::calculate_results()
     for (int i = 0; i < cut_params.size() - 1 && rc == WORK; i++)
     {
         B.clear();
-        for (int j = 0; j < result.size() - 1; j++)
+        for (int j = 0; j < result.size(); j++)
         {
             Aj = result[j];
             if (j == 0)
@@ -149,7 +139,7 @@ void my_paintwidget::calculate_results()
                 }
             }
             S = Aj;
-            if (is_visible(S, i) > 0)
+            if (is_visible(S, i) >= 0)
                 B.append(S);
         }
         if (B.size() == 0)
@@ -205,7 +195,6 @@ void my_paintwidget::add_point_cut(QPoint p)
 
 void my_paintwidget::cut_result()
 {
-    calculate_normals();
     calculate_results();
     draw_result();
 }
@@ -215,7 +204,6 @@ void my_paintwidget::clear_all()
     poly.clear();
     cut_params.clear();
     result.clear();
-    normals.clear();
     draw_image();
     first_point_cut = true;
     first_point_poly = true;
@@ -232,7 +220,7 @@ void my_paintwidget::clear_poly()
 void my_paintwidget::clear_cutter()
 {
     cut_params.clear();
-    normals.clear();
+    result.clear();
     draw_image();
     first_point_cut = true;
 }
@@ -285,7 +273,8 @@ bool my_paintwidget::is_convex()
         vector_mult(a, b, mult_res);
         if (sign == 0)
             sign = SIGN(mult_res.z);
-        if (mult_res.z && sign != SIGN(mult_res.z))
+        int tmp = SIGN(mult_res.z);
+        if ((sign != tmp) && mult_res.z)
         {
             direction = 0;
             return false;
