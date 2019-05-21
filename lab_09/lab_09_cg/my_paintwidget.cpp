@@ -112,8 +112,8 @@ QPoint calculate_crossing_point(QPoint &P1, QPoint &P2, QPoint &Q1, QPoint &Q2)
 
 void my_paintwidget::calculate_results()
 {
-    poly.removeLast();
     copy_arr(result, poly);
+    result.removeLast();
     QVector<QPoint> B;
     QPoint Aj;
     QPoint F;
