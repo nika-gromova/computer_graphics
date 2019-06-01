@@ -93,9 +93,10 @@ void MainWindow::on_clear_pushButton_clicked()
 
 void MainWindow::on_rotate_pushButton_clicked()
 {
-    params.angle_x += ui->rotate_ox_lineEdit->text().toDouble();
-    params.angle_y += ui->rotate_oy_lineEdit->text().toDouble();
-    params.angle_z += ui->rotate_oz_lineEdit->text().toDouble();
+    double k = (double)M_PI / 180;
+    params.angle_x += ui->rotate_ox_lineEdit->text().toDouble() * k;
+    params.angle_y += ui->rotate_oy_lineEdit->text().toDouble() * k;
+    params.angle_z += ui->rotate_oz_lineEdit->text().toDouble() * k;
     myscene->draw_surface(cur_data, params);
     myscene->repaint();
 }

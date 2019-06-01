@@ -30,6 +30,7 @@ void center_point(QPoint &p)
     p.setY(p.y() + Y_CENTER);
 }
 
+
 void my_paintwidget::update_horizon(QPoint start, QPoint end)
 {
     QPainter painter(&my_image);
