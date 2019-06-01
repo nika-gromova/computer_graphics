@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QDoubleValidator>
 
 void change_widget_color(QWidget *widg, QColor color)
 {
@@ -14,6 +15,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QDoubleValidator *v = new QDoubleValidator(this);
+    v->setLocale(QLocale::English);
+    ui->x_start_lineEdit->setValidator(v);
+    ui->x_end_lineEdit->setValidator(v);
+    ui->delta_x_lineEdit->setValidator(v);
+    ui->z_start_lineEdit->setValidator(v);
+    ui->z_end_lineEdit->setValidator(v);
+    ui->delta_z_lineEdit->setValidator(v);
+    ui->rotate_ox_lineEdit->setValidator(v);
+    ui->rotate_oy_lineEdit->setValidator(v);
+    ui->rotate_oz_lineEdit->setValidator(v);
+    ui->k_lineEdit->setValidator(v);
+
 
     ui->comboBox_surface->addItem("Выберете поверхность");
     ui->comboBox_surface->addItem(functionT.get_function_name(1));
@@ -87,7 +102,14 @@ void MainWindow::on_rotate_pushButton_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    params.k += ui->k_lineEdit->text().toDouble();
-    myscene->draw_surface(cur_data, params);
-    myscene->repaint();
+    double cur_k = ui->k_lineEdit->text().toDouble();
+    if (params.k + cur_k != 0)
+    {
+        params.k += ui->k_lineEdit->text().toDouble();
+        myscene->draw_surface(cur_data, params);
+        myscene->repaint();
+    }
+    else
+        QMessageBox::warning(this, "Вырождение в точку", "Дальнейшее масштабирование с заданным коэффициентом приведет к вырождению изображения в точку");
+
 }
