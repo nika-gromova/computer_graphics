@@ -36,6 +36,9 @@ void my_paintwidget::update_horizon(QPoint start, QPoint end)
     QPainter painter(&my_image);
     painter.setPen(QPen(color_draw));
 
+    if (start.x() > end.x())
+        qSwap(start, end);
+
     int dx = end.x() - start.x();
     int dy = end.y() - start.y();
 
@@ -49,8 +52,38 @@ void my_paintwidget::update_horizon(QPoint start, QPoint end)
     }
     else
     {
-        int x = start.x();
-        int y = start.y();
+        QPoint prev(start.x(), start.y());
+        center_point(prev);
+        double m = (dy) / (double)(dx);
+        for (int x = start.x(); x <= end.x(); x++)
+        {
+            int y = round(m * (x - start.x()) + start.y());
+            top[x] = qMax(top[x], y);
+            bottom[x] = qMin(bottom[x], y);
+            QPoint cur(x, y);
+            center_point(cur);
+            painter.drawLine(prev, cur);
+            prev = cur;
+        }
+        /*
+        int len = (abs(dx) > abs(dy) ? abs(dx) : abs(dy));
+        double sx = ((double)dx / (double)len);
+        double sy = ((double)dy / (double)len);
+
+        double x = start.x();
+        double y = start.y();
+        for (int i = 0; i < len + 1; i++)
+        {
+            int rx = round(x);
+            int ry = round(y);
+            top[rx] = qMax(ry, top[rx]);
+            bottom[rx] = qMin(ry, bottom[rx]);
+            painter.drawPoint(rx + X_CENTER, ry + Y_CENTER);
+            x += sx;
+            y += sy;
+        }
+        */
+        /*
         int sx = sign(dx);
         int sy = sign(dy);
         dx = abs(dx);
@@ -58,6 +91,8 @@ void my_paintwidget::update_horizon(QPoint start, QPoint end)
         bool swap = (dx > dy ? false : true);
         if (swap)
             swap_num(dx, dy);
+        int x = start.x();
+        int y = start.y();
         double m = (double)dy / (double)dx;
         double e = m - 0.5;
         for (int i = 0; i < dx + 1; i++)
@@ -78,7 +113,7 @@ void my_paintwidget::update_horizon(QPoint start, QPoint end)
             else
                 y += sy;
             e += m;
-        }
+        }*/
     }
 }
 

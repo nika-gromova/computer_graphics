@@ -36,6 +36,15 @@ private:
     Function functionT;
     transform_params params;
     surface_data cur_data;
+    void rotate(void);
+    bool key_down_pressed;
+    bool key_up_pressed;
+    bool key_right_pressed;
+    bool key_left_pressed;
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 };
 
 #endif // MAINWINDOW_H

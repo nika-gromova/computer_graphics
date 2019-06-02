@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QDoubleValidator>
+#include <QKeyEvent>
 
 void change_widget_color(QWidget *widg, QColor color)
 {
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox_surface->addItem(functionT.get_function_name(3));
     ui->comboBox_surface->addItem(functionT.get_function_name(4));
 
+
     ui->color_widget->setAutoFillBackground(true);
     change_widget_color(ui->color_widget, QColor(Qt::white));
 
@@ -45,7 +47,12 @@ MainWindow::MainWindow(QWidget *parent) :
     params.angle_x = 0;
     params.angle_y = 0;
     params.angle_z = 0;
-    params.k = 20;
+    params.k = 30;
+
+    key_down_pressed = false;
+    key_up_pressed = false;
+    key_right_pressed = false;
+    key_left_pressed = false;
 }
 
 MainWindow::~MainWindow()
@@ -88,7 +95,7 @@ void MainWindow::on_clear_pushButton_clicked()
     params.angle_x = 0;
     params.angle_y = 0;
     params.angle_z = 0;
-    params.k = 20;
+    params.k = 30;
 }
 
 void MainWindow::on_rotate_pushButton_clicked()
@@ -113,4 +120,44 @@ void MainWindow::on_pushButton_clicked()
     else
         QMessageBox::warning(this, "Вырождение в точку", "Дальнейшее масштабирование с заданным коэффициентом приведет к вырождению изображения в точку");
 
+}
+
+void MainWindow::rotate()
+{
+    double k = (double)M_PI / 180;
+    if (key_down_pressed)
+        params.angle_x -= ui->rotate_ox_lineEdit->text().toDouble() * k;
+    if (key_up_pressed)
+        params.angle_x += ui->rotate_ox_lineEdit->text().toDouble() * k;
+    if (key_left_pressed)
+        params.angle_y -= ui->rotate_oy_lineEdit->text().toDouble() * k;
+    if (key_right_pressed)
+        params.angle_y += ui->rotate_oy_lineEdit->text().toDouble() * k;
+    myscene->draw_surface(cur_data, params);
+    myscene->repaint();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Down)
+        key_down_pressed = true;
+    if (event->key() == Qt::Key_Up)
+        key_up_pressed = true;
+    if (event->key() == Qt::Key_Left)
+        key_left_pressed = true;
+    if (event->key() == Qt:: Key_Right)
+        key_right_pressed = true;
+    rotate();
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Down)
+        key_down_pressed = false;
+    if (event->key() == Qt::Key_Up)
+        key_up_pressed = false;
+    if (event->key() == Qt::Key_Left)
+        key_left_pressed = false;
+    if (event->key() == Qt:: Key_Right)
+        key_right_pressed = false;
 }

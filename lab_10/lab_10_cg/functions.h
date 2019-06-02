@@ -46,7 +46,7 @@ public:
             return "y = six(x) + cos(z)";
             break;
         case 4:
-            return "y = 2 * cos(x * z)";
+            return "y = cos^2(x) + sin^2(z))";
             break;
         default:
             break;
@@ -71,7 +71,7 @@ private:
     }
     static double f4(double x, double z)
     {
-        return 2 * cos(x * z);
+        return cos(x) * cos(x) + sin(z) * sin(z);
     }
 };
 
