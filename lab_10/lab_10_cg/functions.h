@@ -43,7 +43,7 @@ public:
             return "y = cos(sqrt(x^2 + z^2))";
             break;
         case 3:
-            return "y = six(x) + cos(z)";
+            return "y = cos(x) * sin(z)";
             break;
         case 4:
             return "y = cos^2(x) + sin^2(z))";
@@ -67,7 +67,7 @@ private:
     }
     static double f3(double x, double z)
     {
-        return sin(x) + cos(z);
+        return cos(x) * sin(z);
     }
     static double f4(double x, double z)
     {

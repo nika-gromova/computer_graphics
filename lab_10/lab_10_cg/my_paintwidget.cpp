@@ -139,7 +139,7 @@ QPoint my_paintwidget::calculate_cross(QPoint &prev, QPoint &cur, QHash<int, int
         double m = dy_cur / (double)(dx);
         if (dy_cur != dy_prev)
         {
-            res_x = prev.x() - round(((prev.y() - arr_y1) * dx / (dy_cur - dy_prev)));
+            res_x = prev.x() - round(((prev.y() - arr_y1) * dx / (double)(dy_cur - dy_prev)));
             res_y = round((res_x - prev.x()) * m + prev.y());
         }
     }
