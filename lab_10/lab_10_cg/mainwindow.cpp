@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     key_up_pressed = false;
     key_right_pressed = false;
     key_left_pressed = false;
+    key_z_pressed = false;
 }
 
 MainWindow::~MainWindow()
@@ -98,12 +99,28 @@ void MainWindow::on_clear_pushButton_clicked()
     params.k = 30;
 }
 
+void correct_data(transform_params &p)
+{
+    if (p.angle_x > 360)
+        p.angle_x -= 360;
+    else if (p.angle_x < -360)
+        p.angle_x += 360;
+    if (p.angle_y > 360)
+        p.angle_y -= 360;
+    else if (p.angle_y < -360)
+        p.angle_y += 360;
+    if (p.angle_z > 360)
+        p.angle_z -= 360;
+    else if (p.angle_z < -360)
+        p.angle_z += 360;
+}
+
 void MainWindow::on_rotate_pushButton_clicked()
 {
-    double k = (double)M_PI / 180;
-    params.angle_x += ui->rotate_ox_lineEdit->text().toDouble() * k;
-    params.angle_y += ui->rotate_oy_lineEdit->text().toDouble() * k;
-    params.angle_z += ui->rotate_oz_lineEdit->text().toDouble() * k;
+    params.angle_x += ui->rotate_ox_lineEdit->text().toDouble();
+    params.angle_y += ui->rotate_oy_lineEdit->text().toDouble();
+    params.angle_z += ui->rotate_oz_lineEdit->text().toDouble();
+    correct_data(params);
     myscene->draw_surface(cur_data, params);
     myscene->repaint();
 }
@@ -124,40 +141,72 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::rotate()
 {
-    double k = (double)M_PI / 180;
     if (key_down_pressed)
-        params.angle_x -= ui->rotate_ox_lineEdit->text().toDouble() * k;
+        params.angle_x -= ui->rotate_ox_lineEdit->text().toDouble();
     if (key_up_pressed)
-        params.angle_x += ui->rotate_ox_lineEdit->text().toDouble() * k;
+        params.angle_x += ui->rotate_ox_lineEdit->text().toDouble();
     if (key_left_pressed)
-        params.angle_y -= ui->rotate_oy_lineEdit->text().toDouble() * k;
+        params.angle_y -= ui->rotate_oy_lineEdit->text().toDouble();
     if (key_right_pressed)
-        params.angle_y += ui->rotate_oy_lineEdit->text().toDouble() * k;
+        params.angle_y += ui->rotate_oy_lineEdit->text().toDouble();
+    if (key_z_pressed)
+        params.angle_z += ui->rotate_oz_lineEdit->text().toDouble();
+    correct_data(params);
     myscene->draw_surface(cur_data, params);
     myscene->repaint();
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event)
+void MainWindow::on_right_pushButton_pressed()
 {
-    if (event->key() == Qt::Key_Down)
-        key_down_pressed = true;
-    if (event->key() == Qt::Key_Up)
-        key_up_pressed = true;
-    if (event->key() == Qt::Key_Left)
-        key_left_pressed = true;
-    if (event->key() == Qt:: Key_Right)
-        key_right_pressed = true;
+    key_right_pressed = true;
     rotate();
 }
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event)
+void MainWindow::on_right_pushButton_released()
 {
-    if (event->key() == Qt::Key_Down)
-        key_down_pressed = false;
-    if (event->key() == Qt::Key_Up)
-        key_up_pressed = false;
-    if (event->key() == Qt::Key_Left)
-        key_left_pressed = false;
-    if (event->key() == Qt:: Key_Right)
-        key_right_pressed = false;
+    key_right_pressed = false;
+}
+
+void MainWindow::on_left_pushButton_pressed()
+{
+    key_left_pressed = true;
+    rotate();
+}
+
+void MainWindow::on_left_pushButton_released()
+{
+    key_left_pressed = false;
+}
+
+void MainWindow::on_up_pushButton_pressed()
+{
+    key_up_pressed = true;
+    rotate();
+}
+
+void MainWindow::on_up_pushButton_released()
+{
+    key_up_pressed = false;
+}
+
+void MainWindow::on_down_pushButton_pressed()
+{
+    key_down_pressed = true;
+    rotate();
+}
+
+void MainWindow::on_down_pushButton_released()
+{
+    key_down_pressed = false;
+}
+
+void MainWindow::on_oz_pushButton_pressed()
+{
+    key_z_pressed = true;
+    rotate();
+}
+
+void MainWindow::on_oz_pushButton_released()
+{
+    key_z_pressed = false;
 }

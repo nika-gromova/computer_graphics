@@ -195,11 +195,21 @@ void my_paintwidget::draw_surface(surface_data &surf, transform_params &p)
     int prev_visible;
     int cur_visible;
 
+    double ax = p.angle_x;
+
     for (double z = surf.z_end; z >= surf.z_start; z -= surf.z_step)
     {
+        double nz = z;
+        if ((p.angle_x > 90 || p.angle_x < -90) && (p.angle_y > 90 || p.angle_y < -90))
+            nz = z;
+        else if (p.angle_x > 90 || p.angle_x < -90)
+            nz = (surf.z_end - z) + surf.z_start;
+        else if (p.angle_y > 90 || p.angle_y < -90)
+            nz = (surf.z_end - z) + surf.z_start;
+
         double x_prev = surf.x_start;
-        double y_prev = surf.func(x_prev, z);
-        point_3d prev = {x_prev, y_prev, z};
+        double y_prev = surf.func(x_prev, nz);
+        point_3d prev = {x_prev, y_prev, nz};
         previous = transform(prev, p);
 
         if (!flag_first_l)
@@ -213,8 +223,8 @@ void my_paintwidget::draw_surface(surface_data &surf, transform_params &p)
         double x, y;
         for (x = surf.x_start; x <= surf.x_end; x += surf.x_step)
         {
-            y = surf.func(x, z);
-            point_3d cur = {x, y, z};
+            y = surf.func(x, nz);
+            point_3d cur = {x, y, nz};
             current = transform(cur, p);
 
             cur_visible = is_visible(current);
